@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Kanboard
+// @name        Reddit
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
 // @include     http://*.reddit.com/*

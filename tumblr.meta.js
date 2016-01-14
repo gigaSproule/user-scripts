@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Blogspot
+// @name        Tumblr
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
 // @include     http://*.tumblr.com/*
