@@ -2,13 +2,14 @@
 // @name        Reddit
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
+// @version     1.0.1
 // @include     http://*.reddit.com/*
 // @include     https://*.reddit.com/*
 // @match       http://*.reddit.com/*
 // @match       https://*.reddit.com/*
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/reddit.user.js
 // @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/reddit.meta.js
-// @version     1.0.0
 // @grant       none
 // @run-at      document-end
+// @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
