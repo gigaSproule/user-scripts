@@ -22,31 +22,58 @@ function bindKey(keyCode, func) {
 }
 
 function clickById(id) {
+    if (id === undefined) {
+        return;
+    }
+
     document.getElementById(id).click();
 }
 
 function clickByClassName(className) {
+    if (className === undefined) {
+        return;
+    }
+
     document.getElementsByClassName(className)[0].click();
 }
 
 function clickByQuerySelector(querySelector, text) {
+    if (querySelector === undefined) {
+        return;
+    }
+
     var link = document.querySelector(querySelector);
     if (text === undefined || link.text === text) {
         link.click();
     }
 }
 
-function getRequest(request) {
-    request.method = "GET";
-    httpRequest(request);
+function getRequest(details) {
+    if (details === undefined) {
+        return;
+    }
+
+    details.method = "GET";
+    httpRequest(details);
 }
 
-function postRequest(request) {
-    request.method = "POST";
-    httpRequest(request);
+function postRequest(details) {
+    if (details === undefined) {
+        return;
+    }
+
+    details.method = "POST";
+    details.headers = {
+        'Content-type': 'application/x-www-form-urlencoded'
+    };
+    httpRequest(details);
 }
 
 function httpRequest(details) {
+    if (details === undefined) {
+        return;
+    }
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
@@ -58,8 +85,8 @@ function httpRequest(details) {
         }
     };
     request.open(method, details.url, true);
-    if (method == 'POST') {
-        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    }
+    Object.keys(details.headers).forEach(function (header, index) {
+        request.setRequestHeader(header, header[index]);
+    });
     request.send(details.data);
 }
