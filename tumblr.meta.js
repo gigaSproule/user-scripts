@@ -11,10 +11,3 @@
 // @version     1.0.0
 // @run-at      document-end
 // ==/UserScript==
-document.onkeydown = function (event) {
-    if (event.keyCode == '37') {
-        document.getElementById('newer_posts').click();
-    } else if (event.keyCode == '39') {
-        document.getElementById('older_posts').click();
-    }
-};
