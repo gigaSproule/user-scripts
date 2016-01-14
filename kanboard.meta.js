@@ -6,6 +6,6 @@
 // @match       http://*/kanboard*
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/kanboard.user.js
 // @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/kanboard.meta.js
-// @version     1.0.0
+// @version     1.0.1
 // @run-at      document-end
 // ==/UserScript==
