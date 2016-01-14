@@ -9,6 +9,7 @@
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/sky.user.js
 // @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/sky.meta.js
 // @version     1.0.0
+// @grant       none
 // @run-at      document-end
 // ==/UserScript==
 document.onkeydown = function (event) {
