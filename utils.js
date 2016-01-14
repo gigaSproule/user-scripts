@@ -31,7 +31,7 @@ function clickByClassName(className) {
 
 function clickByQuerySelector(querySelector, text) {
     var link = document.querySelector(querySelector);
-    if (text === null || link.text === text) {
+    if (text === undefined || link.text === text) {
         link.click();
     }
 }
