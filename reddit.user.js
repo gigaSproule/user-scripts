@@ -2,7 +2,7 @@
 // @name        Reddit
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.4
+// @version     1.0.5
 // @include     http://*.reddit.com/*
 // @include     https://*.reddit.com/*
 // @match       http://*.reddit.com/*
@@ -14,6 +14,14 @@
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
 window.onload = function () {
-    bindKey('37', clickByQuerySelector('a[rel="nofollow prev"]'));
-    bindKey('39', clickByQuerySelector('a[rel="nofollow next"]'));
+    bindKey('37', left);
+    bindKey('39', right);
 };
+
+function left() {
+    clickByQuerySelector('a[rel="nofollow prev"]');
+}
+
+function right() {
+    clickByQuerySelector('a[rel="nofollow next"]');
+}
