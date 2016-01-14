@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Kanboard
 // @namespace   com.benjaminsproule
-// @include     http://10.92.71.48/kanboard*
+// @include     http://*/kanboard*
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/kanboard.user.js
 // @version     1
 // @grant       none
