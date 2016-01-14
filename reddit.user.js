@@ -1,10 +1,15 @@
 // ==UserScript==
-// @name        Reddit
-// @namespace   com.benjaminsproule
-// @include     https://www.reddit.com/*
+// @name        Kanboard
+// @namespace   http://www.benjaminsproule.com
+// @author      Benjamin Sproule
+// @include     http://*.reddit.com/*
+// @include     https://*.reddit.com/*
+// @match       http://*.reddit.com/*
+// @match       https://*.reddit.com/*
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/reddit.user.js
-// @version     1
-// @grant       none
+// @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/reddit.meta.js
+// @version     1.0.1
+// @run-at      document-end
 // ==/UserScript==
 document.onkeydown = function (event) {
   if (event.keyCode == '37') {
