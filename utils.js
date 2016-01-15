@@ -1,24 +1,45 @@
 var keyBinds = {};
 var metaKeyBinds = {};
+var shiftMetaKeyBinds = {};
 
-document.onkeydown = function (event) {
+document.addEventListener('keydown', function (event) {
     var metaKey = navigator.platform.toLowerCase().contains('mac') ? event.metaKey : event.ctrlKey;
     if (!metaKey) {
         for (let key of keyBinds[event.keyCode]) {
             key();
         }
-    } else if (metaKey) {
+    } else if (metaKey && !event.altKey && !event.shiftKey) {
         for (let key of metaKeyBinds[event.keyCode]) {
+            event.preventDefault();
+            key();
+        }
+    } else if (metaKey && event.shiftKey && !event.altKey) {
+        for (let key of shiftMetaKeyBinds[event.keyCode]) {
+            event.preventDefault();
             key();
         }
     }
-};
+});
 
 function bindKey(keyCode, func) {
     if (keyBinds[keyCode] == null) {
         keyBinds[keyCode] = [];
     }
     keyBinds[keyCode].push(func);
+}
+
+function bindMetaKey(keyCode, func) {
+    if (metaKeyBinds[keyCode] == null) {
+        metaKeyBinds[keyCode] = [];
+    }
+    metaKeyBinds[keyCode].push(func);
+}
+
+function bindShiftMetaKey(keyCode, func) {
+    if (shiftMetaKeyBinds[keyCode] == null) {
+        shiftMetaKeyBinds[keyCode] = [];
+    }
+    shiftMetaKeyBinds[keyCode].push(func);
 }
 
 function clickById(id) {
@@ -46,6 +67,10 @@ function clickByQuerySelector(querySelector, text) {
     if (text === undefined || link.text === text) {
         link.click();
     }
+}
+
+function updateSelectById(id, value) {
+    document.getElementById(id).value = value;
 }
 
 function getRequest(details) {

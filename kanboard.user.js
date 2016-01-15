@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.3
+// @version     1.0.4
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -23,6 +23,14 @@ window.onload = function () {
     bindKey('76', addLink);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
+    bindMetaKey('66', blockedBy);
+    bindMetaKey('66', bug);
+    bindMetaKey('67', childOf);
+    bindMetaKey('69', epic);
+    bindMetaKey('80', parentOf);
+    bindMetaKey('82', relatedTo);
+    bindMetaKey('83', spike);
+    bindShiftMetaKey('66', blocks);
 };
 
 document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
@@ -163,8 +171,24 @@ function addLink() {
     }
 }
 
+function blockedBy() {
+    updateLinkId('3');
+}
+
+function blocks() {
+    updateLinkId('2');
+}
+
+function bug() {
+    updateCategory('3');
+}
+
 function cancel() {
     clickByQuerySelector('.form-actions > a:nth-child(2)', 'cancel');
+}
+
+function childOf() {
+    updateLinkId('6');
 }
 
 function editTask() {
@@ -177,6 +201,18 @@ function editDescription() {
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(2) > a:nth-child(1)', 'Edit the description');
     }
+}
+
+function epic() {
+    updateCategory('1');
+}
+
+function parentOf() {
+    updateLinkId('7');
+}
+
+function relatedTo() {
+    updateLinkId('1');
 }
 
 function showActivityStream() {
@@ -197,7 +233,25 @@ function showTransitions() {
     }
 }
 
+function spike() {
+    updateCategory('4');
+}
+
 function textField() {
     var type = document.activeElement.type;
     return type === 'textarea' || type === 'text' || type === 'number' || type === 'select-one';
+}
+
+function updateLinkId(value) {
+    updateSelect('tasklink', 'form-link_id', value);
+}
+
+function updateCategory(value) {
+    updateSelect('taskmodification', 'form-category_id', value);
+}
+
+function updateSelect(controller, id, value) {
+    if (getParameters(window.location.href).controller === controller) {
+        updateSelectById(id, value);
+    }
 }
