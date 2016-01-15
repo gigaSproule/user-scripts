@@ -63,9 +63,10 @@ function postRequest(details) {
     }
 
     details.method = "POST";
-    details.headers = {
-        'Content-type': 'application/x-www-form-urlencoded'
-    };
+    if (details.headers == undefined) {
+        details.headers = {};
+    }
+    details.headers['Content-type'] = 'application/x-www-form-urlencoded';
     httpRequest(details);
 }
 
@@ -76,7 +77,7 @@ function httpRequest(details) {
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status == 200) {
                 details.success(request);
             } else {
@@ -84,9 +85,21 @@ function httpRequest(details) {
             }
         }
     };
-    request.open(method, details.url, true);
-    Object.keys(details.headers).forEach(function (header, index) {
-        request.setRequestHeader(header, header[index]);
-    });
+    request.open(details.method, details.url, true);
+    if (details.headers != undefined) {
+        Object.keys(details.headers).forEach(function (header) {
+            request.setRequestHeader(header, details.headers[header]);
+        });
+    }
     request.send(details.data);
+}
+
+function getParameters(url) {
+    var parameters = {};
+    var urlParameters = url.split('?')[1].split('&');
+    for (let param of urlParameters) {
+        var splitParam = param.split('=');
+        parameters[splitParam[0]] = splitParam[1];
+    }
+    return parameters;
 }

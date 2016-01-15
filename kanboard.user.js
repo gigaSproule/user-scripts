@@ -112,13 +112,12 @@ function changeAssignee(link) {
         parent = parent.parentNode;
     }
 
-    var taskId = parent.getAttribute('data-task-id');
-    var projectId = parent.getAttribute('data-category-id');
+    var parameters = getParameters(parent.getAttribute('data-task-url'));
 
     link.removeAttribute('href');
-
     getRequest({
         success: function (response) {
+            console.log(response.responseText);
             var parser = new DOMParser();
             var html = parser.parseFromString(response.responseText, 'text/html');
             var csrfToken = html.getElementsByName('csrf_token')[0].value;
@@ -133,7 +132,7 @@ function changeAssignee(link) {
                 }
             }
 
-            var data = 'csrf_token=' + csrfToken + '&id=' + taskId + '&project_id=' + projectId + '&owner_id=' + ownerId;
+            var data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
             postRequest({
                 success: function () {
                     location.reload();
@@ -141,14 +140,14 @@ function changeAssignee(link) {
                 failure: function () {
                     alert('An error has occured making the request');
                 },
-                url: 'http://10.92.71.48/kanboard/?controller=board&action=updateAssignee&task_id=' + taskId + '&project_id=' + projectId,
+                url: 'http://10.92.71.48/kanboard/?controller=board&action=updateAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
                 data: data
             });
         },
         failure: function () {
             alert('An error has occured making the request');
         },
-        url: 'http://10.92.71.48/kanboard/?controller=board&action=changeAssignee&task_id=' + taskId + '&project_id=' + projectId
+        url: 'http://10.92.71.48/kanboard/?controller=board&action=changeAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id
     });
 }
 
