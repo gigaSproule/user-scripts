@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.8
+// @version     1.0.9
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -277,6 +277,7 @@ function textField() {
 
 function updateLinkId(value) {
     updateSelect('form-link_id', value);
+    document.getElementById('form-title').focus();
 }
 
 function updateCategory(value) {
