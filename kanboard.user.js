@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.5
+// @version     1.0.6
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -21,6 +21,7 @@ window.onload = function () {
     bindKey('68', editDescription);
     bindKey('69', editTask);
     bindKey('76', addLink);
+    bindKey('82', removeTask);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
     if (getParameters(window.location.href).controller === 'tasklink') {
@@ -129,7 +130,6 @@ function changeAssignee(link) {
     link.removeAttribute('href');
     getRequest({
         success: function (response) {
-            console.log(response.responseText);
             var parser = new DOMParser();
             var html = parser.parseFromString(response.responseText, 'text/html');
             var csrfToken = html.getElementsByName('csrf_token')[0].value;
@@ -217,6 +217,16 @@ function parentOf() {
 
 function relatedTo() {
     updateLinkId('1');
+}
+
+function removeTask() {
+    clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(13) > a:nth-child(1)', 'Remove');
+    //getRequest({
+    //    url: 'http://10.92.71.48/kanboard/?controller=task&action=remove&task_id=134&project_id=1',
+    //    success: function () {
+    //        window.location.href = 'http://10.92.71.48/kanboard/?controller=board&action=show&project_id=1';
+    //    }
+    //});
 }
 
 function showActivityStream() {
