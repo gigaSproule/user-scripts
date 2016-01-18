@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.6
+// @version     1.0.7
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -24,6 +24,7 @@ window.onload = function () {
     bindKey('82', removeTask);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
+    bindKey('89', yes);
     if (getParameters(window.location.href).controller === 'tasklink') {
         bindMetaKey('66', blockedBy);
         bindMetaKey('67', childOf);
@@ -266,4 +267,8 @@ function updateCategory(value) {
 
 function updateSelect(id, value) {
     updateSelectById(id, value);
+}
+
+function yes() {
+    clickByQuerySelector('.btn', 'Yes');
 }
