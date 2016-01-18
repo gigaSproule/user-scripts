@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.4
+// @version     1.0.5
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -23,14 +23,18 @@ window.onload = function () {
     bindKey('76', addLink);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
-    bindMetaKey('66', blockedBy);
-    bindMetaKey('66', bug);
-    bindMetaKey('67', childOf);
-    bindMetaKey('69', epic);
-    bindMetaKey('80', parentOf);
-    bindMetaKey('82', relatedTo);
-    bindMetaKey('83', spike);
-    bindShiftMetaKey('66', blocks);
+    if (getParameters(window.location.href).controller === 'tasklink') {
+        bindMetaKey('66', blockedBy);
+        bindMetaKey('67', childOf);
+        bindMetaKey('80', parentOf);
+        bindMetaKey('82', relatedTo);
+        bindShiftMetaKey('66', blocks);
+    }
+    if (getParameters(window.location.href).controller === 'taskmodification') {
+        bindMetaKey('66', bug);
+        bindMetaKey('69', epic);
+        bindMetaKey('83', spike);
+    }
 };
 
 document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
@@ -243,15 +247,13 @@ function textField() {
 }
 
 function updateLinkId(value) {
-    updateSelect('tasklink', 'form-link_id', value);
+    updateSelect('form-link_id', value);
 }
 
 function updateCategory(value) {
-    updateSelect('taskmodification', 'form-category_id', value);
+    updateSelect('form-category_id', value);
 }
 
-function updateSelect(controller, id, value) {
-    if (getParameters(window.location.href).controller === controller) {
-        updateSelectById(id, value);
-    }
+function updateSelect(id, value) {
+    updateSelectById(id, value);
 }
