@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.7
+// @version     1.0.8
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*

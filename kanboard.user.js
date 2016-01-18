@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.7
+// @version     1.0.8
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -221,13 +221,28 @@ function relatedTo() {
 }
 
 function removeTask() {
-    clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(13) > a:nth-child(1)', 'Remove');
-    //getRequest({
-    //    url: 'http://10.92.71.48/kanboard/?controller=task&action=remove&task_id=134&project_id=1',
-    //    success: function () {
-    //        window.location.href = 'http://10.92.71.48/kanboard/?controller=board&action=show&project_id=1';
-    //    }
-    //});
+    if (!textField) {
+        var parameters = getParameters(window.location.href);
+        if (parameters.task_id === undefined || parameters.project_id === undefined) {
+            return;
+        }
+        getRequest({
+            url: 'http://10.92.71.48/kanboard/?controller=task&action=remove&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
+            success: function (response) {
+                if (confirm('Are you sure you want to delete task ' + parameters.task_id)) {
+                    var parser = new DOMParser();
+                    var html = parser.parseFromString(response.responseText, 'text/html');
+                    var url = html.querySelector('.btn').href;
+                    getRequest({
+                        url: url,
+                        success: function () {
+                            window.location.href = 'http://10.92.71.48/kanboard/?controller=board&action=show&project_id=1';
+                        }
+                    });
+                }
+            }
+        });
+    }
 }
 
 function showActivityStream() {
