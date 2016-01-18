@@ -237,6 +237,9 @@ function removeTask() {
                         url: url,
                         success: function () {
                             window.location.href = 'http://10.92.71.48/kanboard/?controller=board&action=show&project_id=1';
+                        },
+                        failure: function () {
+                            alert('Failed to remove task ' + parameters.task_id);
                         }
                     });
                 }
