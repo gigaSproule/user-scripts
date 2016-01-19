@@ -1,11 +1,19 @@
 var keyBinds = {};
+var altKeyBinds = {};
 var metaKeyBinds = {};
+var shiftKeyBinds = {};
+var altMetaKeyBinds = {};
 var shiftMetaKeyBinds = {};
 
 document.addEventListener('keydown', function (event) {
     var metaKey = navigator.platform.toLowerCase().contains('mac') ? event.metaKey : event.ctrlKey;
-    if (!metaKey) {
+    if (!metaKey && !event.altKey && !event.shiftKey) {
         for (let key of keyBinds[event.keyCode]) {
+            key();
+        }
+    } else if (!metaKey && event.altKey && !event.shiftKey) {
+        for (let key of altKeyBinds[event.keyCode]) {
+            event.preventDefault();
             key();
         }
     } else if (metaKey && !event.altKey && !event.shiftKey) {
@@ -13,8 +21,18 @@ document.addEventListener('keydown', function (event) {
             event.preventDefault();
             key();
         }
+    } else if (!metaKey && !event.altKey && event.shiftKey) {
+        for (let key of shiftKeyBinds[event.keyCode]) {
+            event.preventDefault();
+            key();
+        }
     } else if (metaKey && event.shiftKey && !event.altKey) {
         for (let key of shiftMetaKeyBinds[event.keyCode]) {
+            event.preventDefault();
+            key();
+        }
+    } else if (metaKey && !event.shiftKey && event.altKey) {
+        for (let key of altMetaKeyBinds[event.keyCode]) {
             event.preventDefault();
             key();
         }
@@ -28,11 +46,32 @@ function bindKey(keyCode, func) {
     keyBinds[keyCode].push(func);
 }
 
+function bindAltKey(keyCode, func) {
+    if (altKeyBinds[keyCode] == null) {
+        altKeyBinds[keyCode] = [];
+    }
+    altKeyBinds[keyCode].push(func);
+}
+
 function bindMetaKey(keyCode, func) {
     if (metaKeyBinds[keyCode] == null) {
         metaKeyBinds[keyCode] = [];
     }
     metaKeyBinds[keyCode].push(func);
+}
+
+function bindShiftKey(keyCode, func) {
+    if (shiftKeyBinds[keyCode] == null) {
+        shiftKeyBinds[keyCode] = [];
+    }
+    shiftKeyBinds[keyCode].push(func);
+}
+
+function bindAltMetaKey(keyCode, func) {
+    if (altMetaKeyBinds[keyCode] == null) {
+        altMetaKeyBinds[keyCode] = [];
+    }
+    altMetaKeyBinds[keyCode].push(func);
 }
 
 function bindShiftMetaKey(keyCode, func) {
