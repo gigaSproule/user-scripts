@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.9
+// @version     1.0.10
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -14,9 +14,16 @@
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
 window.onload = function () {
+    document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
+
     colour();
+    addChangeAssigneeClickEvent();
+    correctMarkdownSize();
+    toggleSideBar();
+
     bindKey('27', cancel);
     bindKey('65', showActivityStream);
+    bindMetaKey('66', backToBoard);
     bindKey('67', addComment);
     bindKey('68', editDescription);
     bindKey('69', editTask);
@@ -24,34 +31,116 @@ window.onload = function () {
     bindKey('82', removeTask);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
+    bindMetaKey('84', toggleSideBar);
     bindKey('89', yes);
-    if (getParameters(window.location.href).controller === 'tasklink') {
+    if (getWindowParameters().controller === 'board') {
+        bindMetaKey('69', toggleColumns);
+    }
+    if (getWindowParameters().controller === 'tasklink') {
         bindMetaKey('66', blockedBy);
         bindMetaKey('67', childOf);
         bindMetaKey('80', parentOf);
         bindMetaKey('82', relatedTo);
         bindShiftMetaKey('66', blocks);
     }
-    if (getParameters(window.location.href).controller === 'taskmodification') {
+    if (getWindowParameters().controller === 'taskmodification') {
         bindMetaKey('66', bug);
         bindMetaKey('69', epic);
         bindMetaKey('83', spike);
     }
 };
 
-document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
-
-for (let link of document.querySelectorAll('a[title="Change assignee"]')) {
-    if (link != 0) {
-        link.addEventListener('click', function (event) {
-            changeAssignee(event.target);
-            return false;
-        });
+function addComment() {
+    if (!textField()) {
+        clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(6) > a:nth-child(1)', 'Add a comment');
     }
 }
 
-for (let markdown of document.querySelectorAll('.markdown')) {
-    markdown.style.fontSize = '100%';
+function addChangeAssigneeClickEvent() {
+    for (let link of document.querySelectorAll('a[title="Change assignee"]')) {
+        if (link != 0) {
+            link.addEventListener('click', function (event) {
+                changeAssignee(event.target);
+                return false;
+            });
+        }
+    }
+}
+
+function addLink() {
+    if (!textField()) {
+        clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(5) > a:nth-child(1)', 'Add a link');
+    }
+}
+
+function backToBoard() {
+    clickByQuerySelector('#main > div:nth-child(1) > ul:nth-child(1) > li:nth-child(1) > a:nth-child(2)', 'Back to the board');
+}
+
+function blockedBy() {
+    updateLinkId('3');
+}
+
+function blocks() {
+    updateLinkId('2');
+}
+
+function bug() {
+    updateCategory('3');
+}
+
+function cancel() {
+    clickByQuerySelector('.form-actions > a:nth-child(2)', 'cancel');
+}
+
+function changeAssignee(link) {
+    var href = link.href;
+    var parent = link.parentNode;
+
+    while (parent.className.indexOf('draggable-item') < 0) {
+        parent = parent.parentNode;
+    }
+
+    var parameters = getParameters(parent.getAttribute('data-task-url'));
+
+    link.removeAttribute('href');
+    getRequest({
+        success: function (response) {
+            var parser = new DOMParser();
+            var html = parser.parseFromString(response.responseText, 'text/html');
+            var csrfToken = html.getElementsByName('csrf_token')[0].value;
+            var username = document.querySelector('.username > a:nth-child(1)').text;
+
+            var ownerId = '0';
+            if (link.text != username) {
+                for (let option of html.getElementById('form-owner_id').options) {
+                    if (option.text === username) {
+                        ownerId = option.value;
+                    }
+                }
+            }
+
+            var data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
+            postRequest({
+                success: function () {
+                    location.reload();
+                },
+                failure: function () {
+                    alert('An error has occured making the request');
+                },
+                url: 'http://10.92.71.48/kanboard/?controller=board&action=updateAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
+                data: data
+            });
+        },
+        failure: function () {
+            alert('An error has occured making the request');
+        },
+        url: 'http://10.92.71.48/kanboard/?controller=board&action=changeAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id
+    });
+}
+
+function childOf() {
+    updateLinkId('6');
 }
 
 function colour() {
@@ -118,82 +207,10 @@ function setColour(element) {
     }
 }
 
-function changeAssignee(link) {
-    var href = link.href;
-    var parent = link.parentNode;
-
-    while (parent.className.indexOf('draggable-item') < 0) {
-        parent = parent.parentNode;
+function correctMarkdownSize() {
+    for (let markdown of document.querySelectorAll('.markdown')) {
+        markdown.style.fontSize = '100%';
     }
-
-    var parameters = getParameters(parent.getAttribute('data-task-url'));
-
-    link.removeAttribute('href');
-    getRequest({
-        success: function (response) {
-            var parser = new DOMParser();
-            var html = parser.parseFromString(response.responseText, 'text/html');
-            var csrfToken = html.getElementsByName('csrf_token')[0].value;
-            var username = document.querySelector('.username > a:nth-child(1)').text;
-
-            var ownerId = '0';
-            if (link.text != username) {
-                for (let option of html.getElementById('form-owner_id').options) {
-                    if (option.text === username) {
-                        ownerId = option.value;
-                    }
-                }
-            }
-
-            var data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
-            postRequest({
-                success: function () {
-                    location.reload();
-                },
-                failure: function () {
-                    alert('An error has occured making the request');
-                },
-                url: 'http://10.92.71.48/kanboard/?controller=board&action=updateAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
-                data: data
-            });
-        },
-        failure: function () {
-            alert('An error has occured making the request');
-        },
-        url: 'http://10.92.71.48/kanboard/?controller=board&action=changeAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id
-    });
-}
-
-function addComment() {
-    if (!textField()) {
-        clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(6) > a:nth-child(1)', 'Add a comment');
-    }
-}
-
-function addLink() {
-    if (!textField()) {
-        clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(5) > a:nth-child(1)', 'Add a link');
-    }
-}
-
-function blockedBy() {
-    updateLinkId('3');
-}
-
-function blocks() {
-    updateLinkId('2');
-}
-
-function bug() {
-    updateCategory('3');
-}
-
-function cancel() {
-    clickByQuerySelector('.form-actions > a:nth-child(2)', 'cancel');
-}
-
-function childOf() {
-    updateLinkId('6');
 }
 
 function editTask() {
@@ -222,7 +239,7 @@ function relatedTo() {
 
 function removeTask() {
     if (!textField) {
-        var parameters = getParameters(window.location.href);
+        var parameters = getWindowParameters();
         if (parameters.task_id === undefined || parameters.project_id === undefined) {
             return;
         }
@@ -273,6 +290,25 @@ function spike() {
 function textField() {
     var type = document.activeElement.type;
     return type === 'textarea' || type === 'text' || type === 'number' || type === 'select-one';
+}
+
+function toggleColumns() {
+    for (let column of document.getElementsByClassName('board-task-list board-column-expanded ui-sortable')) {
+        console.log(column.style.height);
+        if (column.style.height === '100%') {
+            column.style.height = '500px';
+        } else {
+            column.style.height = '100%';
+        }
+    }
+}
+
+function toggleSideBar() {
+    if (document.querySelector('.sidebar-expand').style.display === 'none') {
+        clickByQuerySelector('.sidebar-collapse > a');
+    } else {
+        clickByQuerySelector('.sidebar-expand > a');
+    }
 }
 
 function updateLinkId(value) {

@@ -158,6 +158,10 @@ function httpRequest(details) {
     request.send(details.data);
 }
 
+function getWindowParameters() {
+    return getParameters(window.location.href);
+}
+
 function getParameters(url) {
     var parameters = {};
     var urlParameters = url.split('?')[1].split('&');
