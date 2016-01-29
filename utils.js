@@ -4,34 +4,58 @@ var metaKeyBinds = {};
 var shiftKeyBinds = {};
 var altMetaKeyBinds = {};
 var shiftMetaKeyBinds = {};
+var shouldCatchKeyCodes = false;
+var caughtKeyCodes = [];
 
 document.addEventListener('keydown', function (event) {
     var metaKey = navigator.platform.toLowerCase().contains('mac') ? event.metaKey : event.ctrlKey;
+    if (shouldCatchKeyCodes) {
+        caughtKeyCodes.push(event.keyCode);
+        return;
+    }
     if (!metaKey && !event.altKey && !event.shiftKey) {
+        if (keyBinds[event.keyCode] === undefined) {
+            return;
+        }
         for (let key of keyBinds[event.keyCode]) {
             key();
         }
     } else if (!metaKey && event.altKey && !event.shiftKey) {
+        if (altKeyBinds[event.keyCode] === undefined) {
+            return;
+        }
         for (let key of altKeyBinds[event.keyCode]) {
             event.preventDefault();
             key();
         }
     } else if (metaKey && !event.altKey && !event.shiftKey) {
+        if (metaKeyBinds[event.keyCode] === undefined) {
+            return;
+        }
         for (let key of metaKeyBinds[event.keyCode]) {
             event.preventDefault();
             key();
         }
     } else if (!metaKey && !event.altKey && event.shiftKey) {
+        if (shiftKeyBinds[event.keyCode] === undefined) {
+            return;
+        }
         for (let key of shiftKeyBinds[event.keyCode]) {
             event.preventDefault();
             key();
         }
     } else if (metaKey && event.shiftKey && !event.altKey) {
+        if (shiftMetaKeyBinds[event.keyCode] === undefined) {
+            return;
+        }
         for (let key of shiftMetaKeyBinds[event.keyCode]) {
             event.preventDefault();
             key();
         }
     } else if (metaKey && !event.shiftKey && event.altKey) {
+        if (altMetaKeyBinds[event.keyCode] === undefined) {
+            return;
+        }
         for (let key of altMetaKeyBinds[event.keyCode]) {
             event.preventDefault();
             key();
@@ -79,6 +103,15 @@ function bindShiftMetaKey(keyCode, func) {
         shiftMetaKeyBinds[keyCode] = [];
     }
     shiftMetaKeyBinds[keyCode].push(func);
+}
+
+function catchKeyCodes(timeout, func) {
+    shouldCatchKeyCodes = true;
+    setTimeout(function () {
+        func();
+        caughtKeyCodes = [];
+        shouldCatchKeyCodes = false;
+    }, timeout);
 }
 
 function clickById(id) {
