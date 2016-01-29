@@ -105,7 +105,7 @@ function bindShiftMetaKey(keyCode, func) {
     shiftMetaKeyBinds[keyCode].push(func);
 }
 
-function catchKeyCodes(timeout, func) {
+function catchKeyCodes(func, timeout) {
     shouldCatchKeyCodes = true;
     setTimeout(function () {
         caughtKeyCodes.shift();
