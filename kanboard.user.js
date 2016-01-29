@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.11
+// @version     1.0.12
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -31,7 +31,7 @@ window.onload = function () {
     bindKey('76', addLink);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
-    bindMetaKey('84', toggleSideBar);
+    bindShiftMetaKey('84', toggleSideBar);
     bindKey('89', yes);
     if (getWindowParameters().controller === 'board') {
         bindMetaKey('69', toggleColumns);
