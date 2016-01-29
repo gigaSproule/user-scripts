@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.10
+// @version     1.0.11
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -22,13 +22,13 @@ window.onload = function () {
     toggleSideBar();
 
     bindKey('27', cancel);
+    bindKey('46', removeTask);
     bindKey('65', showActivityStream);
-    bindMetaKey('66', backToBoard);
+    bindShiftMetaKey('66', backToBoard);
     bindKey('67', addComment);
     bindKey('68', editDescription);
     bindKey('69', editTask);
     bindKey('76', addLink);
-    bindKey('82', removeTask);
     bindKey('83', showSummary);
     bindKey('84', showTransitions);
     bindMetaKey('84', toggleSideBar);
@@ -238,7 +238,7 @@ function relatedTo() {
 }
 
 function removeTask() {
-    if (!textField) {
+    if (!textField()) {
         var parameters = getWindowParameters();
         if (parameters.task_id === undefined || parameters.project_id === undefined) {
             return;
