@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.13
+// @version     1.0.14
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -35,6 +35,7 @@ window.onload = function () {
     bindKey('89', yes);
     if (getWindowParameters().controller === 'board') {
         bindMetaKey('69', toggleColumns);
+        bindMetaKey('79', openTask);
     }
     if (getWindowParameters().controller === 'tasklink') {
         bindMetaKey('66', blockedBy);
@@ -227,6 +228,16 @@ function editDescription() {
 
 function epic() {
     updateCategory('1');
+}
+
+function openTask() {
+    catchKeyCodes(function (keyCodes) {
+        var taskId = '';
+        for (let key of keyCodes) {
+            taskId += mapKey(key);
+        }
+        clickByQuerySelector('div[data-task-id="' + taskId + '"]');
+    }, 1000);
 }
 
 function parentOf() {
