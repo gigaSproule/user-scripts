@@ -1,6 +1,6 @@
 /* jshint esversion:6 */
 /* jshint strict:true */
-window.onload = load;
+load();
 
 function load() {
     'use strict';
