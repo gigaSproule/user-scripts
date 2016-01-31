@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.14
+// @version     1.0.15
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -59,11 +59,8 @@ function addComment() {
 
 function addChangeAssigneeClickEvent() {
     for (let link of document.querySelectorAll('a[title="Change assignee"]')) {
-        if (link != 0) {
-            link.addEventListener('click', function (event) {
-                changeAssignee(event.target);
-                return false;
-            });
+        if (link !== 0) {
+            link.addEventListener('click', changeAssignee);
         }
     }
 }
@@ -94,9 +91,8 @@ function cancel() {
     clickByQuerySelector('.form-actions > a:nth-child(2)', 'cancel');
 }
 
-function changeAssignee(link) {
-    var href = link.href;
-    var parent = link.parentNode;
+function changeAssignee(event) {
+    var parent = event.link.parentNode;
 
     while (parent.className.indexOf('draggable-item') < 0) {
         parent = parent.parentNode;
@@ -104,7 +100,7 @@ function changeAssignee(link) {
 
     var parameters = getParameters(parent.getAttribute('data-task-url'));
 
-    link.removeAttribute('href');
+    event.link.removeAttribute('href');
     getRequest({
         success: function (response) {
             var parser = new DOMParser();
@@ -113,7 +109,7 @@ function changeAssignee(link) {
             var username = document.querySelector('.username > a:nth-child(1)').text;
 
             var ownerId = '0';
-            if (link.text != username) {
+            if (event.link.text !== username) {
                 for (let option of html.getElementById('form-owner_id').options) {
                     if (option.text === username) {
                         ownerId = option.value;
@@ -146,7 +142,7 @@ function childOf() {
 
 function colour() {
     var select = document.getElementById('form-color_id');
-    if (select == null) {
+    if (select === null) {
         return;
     }
     setColour(select);

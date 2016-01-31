@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var keyBinds = {};
 var altKeyBinds = {};
 var metaKeyBinds = {};
@@ -102,42 +104,42 @@ document.addEventListener('keydown', function (event) {
 });
 
 function bindKey(keyCode, func) {
-    if (keyBinds[keyCode] == null) {
+    if (keyBinds[keyCode] === null) {
         keyBinds[keyCode] = [];
     }
     keyBinds[keyCode].push(func);
 }
 
 function bindAltKey(keyCode, func) {
-    if (altKeyBinds[keyCode] == null) {
+    if (altKeyBinds[keyCode] === null) {
         altKeyBinds[keyCode] = [];
     }
     altKeyBinds[keyCode].push(func);
 }
 
 function bindMetaKey(keyCode, func) {
-    if (metaKeyBinds[keyCode] == null) {
+    if (metaKeyBinds[keyCode] === null) {
         metaKeyBinds[keyCode] = [];
     }
     metaKeyBinds[keyCode].push(func);
 }
 
 function bindShiftKey(keyCode, func) {
-    if (shiftKeyBinds[keyCode] == null) {
+    if (shiftKeyBinds[keyCode] === null) {
         shiftKeyBinds[keyCode] = [];
     }
     shiftKeyBinds[keyCode].push(func);
 }
 
 function bindAltMetaKey(keyCode, func) {
-    if (altMetaKeyBinds[keyCode] == null) {
+    if (altMetaKeyBinds[keyCode] === null) {
         altMetaKeyBinds[keyCode] = [];
     }
     altMetaKeyBinds[keyCode].push(func);
 }
 
 function bindShiftMetaKey(keyCode, func) {
-    if (shiftMetaKeyBinds[keyCode] == null) {
+    if (shiftMetaKeyBinds[keyCode] === null) {
         shiftMetaKeyBinds[keyCode] = [];
     }
     shiftMetaKeyBinds[keyCode].push(func);
@@ -203,7 +205,7 @@ function postRequest(details) {
     }
 
     details.method = "POST";
-    if (details.headers == undefined) {
+    if (details.headers === undefined) {
         details.headers = {};
     }
     details.headers['Content-type'] = 'application/x-www-form-urlencoded';
@@ -218,7 +220,7 @@ function httpRequest(details) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState === XMLHttpRequest.DONE) {
-            if (request.status == 200) {
+            if (request.status === 200) {
                 details.success(request);
             } else {
                 details.failure(request);
@@ -226,7 +228,7 @@ function httpRequest(details) {
         }
     };
     request.open(details.method, details.url, true);
-    if (details.headers != undefined) {
+    if (details.headers !== undefined) {
         Object.keys(details.headers).forEach(function (header) {
             request.setRequestHeader(header, details.headers[header]);
         });

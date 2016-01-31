@@ -2,7 +2,7 @@
 // @name        Blogspot
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.2
+// @version     1.0.3
 // @include     http://*.blogspot.co.uk/*
 // @include     https://*.blogspot.co.uk/*
 // @match       http://*.blogspot.co.uk/*
