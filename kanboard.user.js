@@ -13,6 +13,7 @@
 // @run-at      document-end
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
+/*jshint esversion: 6 */
 window.onload = function () {
     document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
 
