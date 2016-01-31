@@ -2,7 +2,7 @@
 // @name        Reddit
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.7
+// @version     1.0.8
 // @include     http://*.reddit.com/*
 // @include     https://*.reddit.com/*
 // @match       http://*.reddit.com/*
@@ -13,7 +13,6 @@
 // @run-at      document-end
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
-/*jshint esversion: 6 */
 window.onload = function () {
     bindKey('37', left);
     bindKey('39', right);

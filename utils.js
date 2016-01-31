@@ -1,4 +1,5 @@
-/*jshint esversion: 6 */
+/* jshint esversion: 6 */
+/* jshint ignore:start */
 
 var keyBinds = {};
 var altKeyBinds = {};
@@ -249,3 +250,4 @@ function getParameters(url) {
     }
     return parameters;
 }
+/* jshint ignore:end */
