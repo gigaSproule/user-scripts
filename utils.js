@@ -106,7 +106,7 @@ document.addEventListener('keydown', function (event) {
 
 function bindKey(keyCode, func) {
     'use strict';
-    if (keyBinds[keyCode] === null) {
+    if (keyBinds[keyCode] === undefined || keyBinds[keyCode] === null) {
         keyBinds[keyCode] = [];
     }
     keyBinds[keyCode].push(func);
@@ -114,7 +114,7 @@ function bindKey(keyCode, func) {
 
 function bindAltKey(keyCode, func) {
     'use strict';
-    if (altKeyBinds[keyCode] === null) {
+    if (altKeyBinds[keyCode] === undefined || altKeyBinds[keyCode] === null) {
         altKeyBinds[keyCode] = [];
     }
     altKeyBinds[keyCode].push(func);
@@ -122,7 +122,7 @@ function bindAltKey(keyCode, func) {
 
 function bindMetaKey(keyCode, func) {
     'use strict';
-    if (metaKeyBinds[keyCode] === null) {
+    if (metaKeyBinds[keyCode] === undefined || metaKeyBinds[keyCode] === null) {
         metaKeyBinds[keyCode] = [];
     }
     metaKeyBinds[keyCode].push(func);
@@ -130,7 +130,7 @@ function bindMetaKey(keyCode, func) {
 
 function bindShiftKey(keyCode, func) {
     'use strict';
-    if (shiftKeyBinds[keyCode] === null) {
+    if (shiftKeyBinds[keyCode] === undefined || shiftKeyBinds[keyCode] === null) {
         shiftKeyBinds[keyCode] = [];
     }
     shiftKeyBinds[keyCode].push(func);
@@ -138,7 +138,7 @@ function bindShiftKey(keyCode, func) {
 
 function bindAltMetaKey(keyCode, func) {
     'use strict';
-    if (altMetaKeyBinds[keyCode] === null) {
+    if (altMetaKeyBinds[keyCode] === undefined || altMetaKeyBinds[keyCode] === null) {
         altMetaKeyBinds[keyCode] = [];
     }
     altMetaKeyBinds[keyCode].push(func);
@@ -146,7 +146,7 @@ function bindAltMetaKey(keyCode, func) {
 
 function bindShiftMetaKey(keyCode, func) {
     'use strict';
-    if (shiftMetaKeyBinds[keyCode] === null) {
+    if (shiftMetaKeyBinds[keyCode] === undefined || shiftMetaKeyBinds[keyCode] === null) {
         shiftMetaKeyBinds[keyCode] = [];
     }
     shiftMetaKeyBinds[keyCode].push(func);
