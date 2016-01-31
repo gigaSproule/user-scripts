@@ -2,7 +2,7 @@
 // @name        Reddit
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.6
+// @version     1.0.7
 // @include     http://*.reddit.com/*
 // @include     https://*.reddit.com/*
 // @match       http://*.reddit.com/*
