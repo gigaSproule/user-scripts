@@ -156,7 +156,6 @@ function catchKeyCodes(func, timeout) {
     'use strict';
     shouldCatchKeyCodes = true;
     setTimeout(function () {
-        caughtKeyCodes.shift();
         func(caughtKeyCodes);
         caughtKeyCodes = [];
         shouldCatchKeyCodes = false;
