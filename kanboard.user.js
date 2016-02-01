@@ -48,6 +48,8 @@ window.onload = function () {
         bindMetaKey('65', analysis);
         bindMetaKey('66', bug);
         bindMetaKey('69', epic);
+        bindShiftMetaKey('69', estimation);
+        bindMetaKey('80', planning);
         bindMetaKey('83', spike);
     }
 };
@@ -227,6 +229,10 @@ function editDescription() {
     }
 }
 
+function estimation() {
+    updateCategory('23');
+}
+
 function epic() {
     updateCategory('1');
 }
@@ -243,6 +249,10 @@ function openTask() {
 
 function parentOf() {
     updateLinkId('7');
+}
+
+function planning() {
+    updateCategory('22');
 }
 
 function relatedTo() {
