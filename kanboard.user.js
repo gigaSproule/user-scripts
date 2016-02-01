@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.20
+// @version     1.0.21
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -44,7 +44,7 @@ window.onload = function () {
         bindMetaKey('82', relatedTo);
         bindShiftMetaKey('66', blocks);
     }
-    if (getWindowParameters().controller === 'taskmodification') {
+    if (getWindowParameters().controller === 'taskmodification' || getWindowParameters().controller === 'taskcreation') {
         bindMetaKey('65', analysis);
         bindMetaKey('66', bug);
         bindMetaKey('69', epic);
