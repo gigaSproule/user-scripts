@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.23
+// @version     1.0.24
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -21,36 +21,36 @@ window.onload = function () {
     correctMarkdownSize();
     toggleSideBar();
 
-    bindKey('27', cancel);
-    bindKey('46', removeTask);
-    bindKey('65', showActivityStream);
-    bindShiftMetaKey('66', backToBoard);
-    bindKey('67', addComment);
-    bindKey('68', editDescription);
-    bindKey('69', editTask);
-    bindKey('76', addLink);
-    bindKey('83', showSummary);
-    bindKey('84', showTransitions);
-    bindShiftMetaKey('84', toggleSideBar);
-    bindKey('89', yes);
+    bindKey('27', 'Cancel', cancel);
+    bindKey('46', 'Remove this task', removeTask);
+    bindKey('65', 'Show activity stream', showActivityStream);
+    bindShiftMetaKey('66', 'Go back to the board', backToBoard);
+    bindKey('67', 'Add a comment', addComment);
+    bindKey('68', 'Edit the description', editDescription);
+    bindKey('69', 'Edit this task', editTask);
+    bindKey('76', 'Add a link to this task', addLink);
+    bindKey('83', 'Show summary', showSummary);
+    bindKey('84', 'Show transitions', showTransitions);
+    bindShiftMetaKey('84', 'Toggle the sidebar', toggleSideBar);
+    bindKey('89', 'Yes', yes);
     if (getWindowParameters().controller === 'board') {
-        bindMetaKey('69', toggleColumns);
-        bindMetaKey('79', openTask);
+        bindMetaKey('69', 'Toggle column height', toggleColumns);
+        bindMetaKey('79', 'Open a task', openTask);
     }
     if (getWindowParameters().controller === 'tasklink') {
-        bindMetaKey('66', blockedBy);
-        bindMetaKey('67', childOf);
-        bindMetaKey('80', parentOf);
-        bindMetaKey('82', relatedTo);
-        bindShiftMetaKey('66', blocks);
+        bindMetaKey('66', 'Set link to blocked by', blockedBy);
+        bindMetaKey('67', 'Set link to child of', childOf);
+        bindMetaKey('80', 'Set link to parent of', parentOf);
+        bindMetaKey('82', 'Set link to related to', relatedTo);
+        bindShiftMetaKey('66', 'Set link to blocks', blocks);
     }
     if (getWindowParameters().controller === 'taskmodification' || getWindowParameters().controller === 'taskcreation') {
-        bindMetaKey('65', analysis);
-        bindMetaKey('66', bug);
-        bindMetaKey('69', epic);
-        bindShiftMetaKey('69', estimation);
-        bindMetaKey('80', planning);
-        bindMetaKey('83', spike);
+        bindMetaKey('65', 'Set type to analysis', analysis);
+        bindMetaKey('66', 'Set type to bug', bug);
+        bindMetaKey('69', 'Set type to epic', epic);
+        bindShiftMetaKey('69', 'Set type to estimation', estimation);
+        bindMetaKey('80', 'Set type to planning', planning);
+        bindMetaKey('83', 'Set type to spike', spike);
     }
 };
 

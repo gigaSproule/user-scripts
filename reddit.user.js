@@ -2,7 +2,7 @@
 // @name        Reddit
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.10
+// @version     1.0.11
 // @include     http://*.reddit.com/*
 // @include     https://*.reddit.com/*
 // @match       http://*.reddit.com/*
@@ -14,8 +14,8 @@
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
 window.onload = function () {
-    bindKey('37', left);
-    bindKey('39', right);
+    bindKey('37', 'Previous page', left);
+    bindKey('39', 'Next page', right);
 };
 
 function left() {

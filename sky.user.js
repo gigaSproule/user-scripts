@@ -2,7 +2,7 @@
 // @name        Sky
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.7
+// @version     1.0.8
 // @include     http://*.sky.com/*
 // @include     https://*.sky.com/*
 // @match       http://*.sky.com/*
@@ -14,8 +14,8 @@
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
 window.onload = function () {
-    bindKey('37', left);
-    bindKey('39', right);
+    bindKey('37', 'Previous', left);
+    bindKey('39', 'Next', right);
 };
 
 function left() {

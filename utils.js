@@ -89,53 +89,19 @@ document.addEventListener('keydown', function (event) {
         caughtKeyCodes.push(event.keyCode);
         return;
     }
+
     if (!metaKey && !event.altKey && !event.shiftKey) {
-        if (keyBinds[event.keyCode] === undefined) {
-            return;
-        }
-        for (let key of keyBinds[event.keyCode]) {
-            key();
-        }
+        executeKeyBinding(keyBinds, event.keyCode);
     } else if (!metaKey && event.altKey && !event.shiftKey) {
-        if (altKeyBinds[event.keyCode] === undefined) {
-            return;
-        }
-        for (let key of altKeyBinds[event.keyCode]) {
-            event.preventDefault();
-            key();
-        }
+        executeKeyBinding(altKeyBinds, event.keyCode);
     } else if (metaKey && !event.altKey && !event.shiftKey) {
-        if (metaKeyBinds[event.keyCode] === undefined) {
-            return;
-        }
-        for (let key of metaKeyBinds[event.keyCode]) {
-            event.preventDefault();
-            key();
-        }
+        executeKeyBinding(metaKeyBinds, event.keyCode);
     } else if (!metaKey && !event.altKey && event.shiftKey) {
-        if (shiftKeyBinds[event.keyCode] === undefined) {
-            return;
-        }
-        for (let key of shiftKeyBinds[event.keyCode]) {
-            event.preventDefault();
-            key();
-        }
+        executeKeyBinding(shiftKeyBinds, event.keyCode);
     } else if (metaKey && event.shiftKey && !event.altKey) {
-        if (shiftMetaKeyBinds[event.keyCode] === undefined) {
-            return;
-        }
-        for (let key of shiftMetaKeyBinds[event.keyCode]) {
-            event.preventDefault();
-            key();
-        }
+        executeKeyBinding(shiftMetaKeyBinds, event.keyCode);
     } else if (metaKey && !event.shiftKey && event.altKey) {
-        if (altMetaKeyBinds[event.keyCode] === undefined) {
-            return;
-        }
-        for (let key of altMetaKeyBinds[event.keyCode]) {
-            event.preventDefault();
-            key();
-        }
+        executeKeyBinding(altMetaKeyBinds, event.keyCode);
     }
 });
 
@@ -144,52 +110,72 @@ document.addEventListener('keyup', function (event) {
     hideCommandsDiv();
 });
 
-function bindKey(keyCode, func) {
+function executeKeyBinding(keyBinding, keyCode) {
     'use strict';
-    if (keyBinds[keyCode] === undefined || keyBinds[keyCode] === null) {
-        keyBinds[keyCode] = [];
+    if (keyBinding[keyCode] === undefined) {
+        return;
     }
-    keyBinds[keyCode].push(func);
+    for (let key of keyBinding[keyCode]) {
+        key.func();
+    }
 }
 
-function bindAltKey(keyCode, func) {
+function bindKey(keyCode, description, func) {
     'use strict';
-    if (altKeyBinds[keyCode] === undefined || altKeyBinds[keyCode] === null) {
-        altKeyBinds[keyCode] = [];
-    }
-    altKeyBinds[keyCode].push(func);
+    addKeyBinding(keyBinds, keyCode, description, func);
 }
 
-function bindMetaKey(keyCode, func) {
+function bindAltKey(keyCode, description, func) {
     'use strict';
-    if (metaKeyBinds[keyCode] === undefined || metaKeyBinds[keyCode] === null) {
-        metaKeyBinds[keyCode] = [];
-    }
-    metaKeyBinds[keyCode].push(func);
+    addKeyBinding(altKeyBinds, keyCode, description, func);
 }
 
-function bindShiftKey(keyCode, func) {
+function bindMetaKey(keyCode, description, func) {
     'use strict';
-    if (shiftKeyBinds[keyCode] === undefined || shiftKeyBinds[keyCode] === null) {
-        shiftKeyBinds[keyCode] = [];
-    }
-    shiftKeyBinds[keyCode].push(func);
+    addKeyBinding(metaKeyBinds, keyCode, description, func);
 }
 
-function bindAltMetaKey(keyCode, func) {
+function bindShiftKey(keyCode, description, func) {
     'use strict';
-    if (altMetaKeyBinds[keyCode] === undefined || altMetaKeyBinds[keyCode] === null) {
-        altMetaKeyBinds[keyCode] = [];
-    }
-    altMetaKeyBinds[keyCode].push(func);
+    addKeyBinding(shiftKeyBinds, keyCode, description, func);
 }
 
-function bindShiftMetaKey(keyCode, func) {
+function bindAltMetaKey(keyCode, description, func) {
     'use strict';
-    if (shiftMetaKeyBinds[keyCode] === undefined || shiftMetaKeyBinds[keyCode] === null) {
-        shiftMetaKeyBinds[keyCode] = [];
+    addKeyBinding(altMetaKeyBinds, keyCode, description, func);
+}
+
+function bindShiftMetaKey(keyCode, description, func) {
+    'use strict';
+    addKeyBinding(shiftMetaKeyBinds, keyCode, description, func);
+}
+
+function addKeyBinding(keyBinding, keyCode, description, func) {
+    'use strict';
+    if (keyBinding === undefined) {
+        alert('Key binding array not provided');
+        return;
     }
-    shiftMetaKeyBinds[keyCode].push(func);
+
+    if (keyCode === undefined) {
+        alert('Key code not provided');
+        return;
+    }
+
+    if (description === undefined) {
+        alert('Description not provided');
+        return;
+    }
+
+    if (func === undefined) {
+        alert('Function not provided');
+        return;
+    }
+
+    if (keyBinding[keyCode] === undefined || keyBinding[keyCode] === null) {
+        keyBinding[keyCode] = [];
+    }
+    keyBinding[keyCode].push({'description': description, 'func': func});
 }
 
 function catchKeyCodes(func, timeout) {
@@ -241,7 +227,7 @@ function createCommandsDiv() {
     commandsDiv = document.createElement('div');
 
     commandsDiv.id = 'commands';
-    commandsDiv.style.position = 'absolute';
+    commandsDiv.style.position = 'fixed';
     commandsDiv.style.top = '30px';
     commandsDiv.style.left = '30px';
     commandsDiv.style.background = 'black';
@@ -254,15 +240,28 @@ function createCommandsDiv() {
     commandsDiv.style.visibility = 'visible';
 
     var commands = '<table>';
-    for (let key in keyBinds) {
-        for (let value of keyBinds[key]) {
-            commands += '<tr><td>' + mapKey(key) + '</td><td style="padding-left: 15px">' + value.name + '</td></tr>';
+
+    commands += getCommands(keyBinds);
+    commands += getCommands(altKeyBinds);
+    commands += getCommands(metaKeyBinds);
+    commands += getCommands(shiftKeyBinds);
+    commands += getCommands(altMetaKeyBinds);
+    commands += getCommands(shiftMetaKeyBinds);
+
+    commands += '</table>';
+    commandsDiv.innerHTML = commands;
+
+    document.getElementsByTagName('body')[0].appendChild(commandsDiv);
+}
+
+function getCommands(keyBinding) {
+    var commands = '';
+    for (let key in keyBinding) {
+        for (let value of keyBinding[key]) {
+            commands += '<tr><td>' + mapKey(key) + '</td><td style="padding-left: 15px">' + value.description + '</td></tr>';
         }
     }
-    commands += '</table>';
-
-    commandsDiv.innerHTML = commands;
-    document.getElementsByTagName('body')[0].appendChild(commandsDiv);
+    return commands;
 }
 
 function hideCommandsDiv() {
