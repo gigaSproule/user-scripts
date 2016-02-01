@@ -232,6 +232,7 @@ function createCommandsDiv() {
     commandsDiv.style.left = '30px';
     commandsDiv.style.background = 'black';
     commandsDiv.style.color = 'white';
+    commandsDiv.style.fontSize = 'medium';
     commandsDiv.style.padding = '15px';
     commandsDiv.style.borderRadius = '15px 15px';
     commandsDiv.style.border = '2px solid #F5F5F7';
