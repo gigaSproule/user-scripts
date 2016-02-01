@@ -49,7 +49,7 @@ var keyMap = {
 
 document.addEventListener('keydown', function (event) {
     'use strict';
-    var metaKey = navigator.platform.toLowerCase().contains('mac') ? event.metaKey : event.ctrlKey;
+    var metaKey = navigator.platform.toLowerCase().indexOf('mac') !== -1 ? event.metaKey : event.ctrlKey;
     if (shouldCatchKeyCodes) {
         caughtKeyCodes.push(event.keyCode);
         return;
