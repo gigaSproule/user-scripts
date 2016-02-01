@@ -239,7 +239,7 @@ function createCommandsDiv() {
     commandsDiv.style.display = 'block';
     commandsDiv.style.visibility = 'visible';
 
-    var commands = '<table>';
+    var commands = '<table style="border: none">';
 
     commands += getCommands(keyBinds);
     commands += getCommands(altKeyBinds);
@@ -258,7 +258,7 @@ function getCommands(keyBinding) {
     var commands = '';
     for (let key in keyBinding) {
         for (let value of keyBinding[key]) {
-            commands += '<tr><td>' + mapKey(key) + '</td><td style="padding-left: 15px">' + value.description + '</td></tr>';
+            commands += '<tr style="border: none"><td>' + mapKey(key) + '</td><td style="padding-left: 15px">' + value.description + '</td></tr>';
         }
     }
     return commands;
