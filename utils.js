@@ -9,6 +9,24 @@ var shiftMetaKeyBinds = {};
 var shouldCatchKeyCodes = false;
 var caughtKeyCodes = [];
 var keyMap = {
+    '8': 'backspace',
+    '9': 'tab',
+    '13': 'enter',
+    '16': 'shift',
+    '17': 'ctrl',
+    '18': 'alt',
+    '19': 'pause/break',
+    '20': 'caps lock',
+    '27': 'escape',
+    '33': 'page up',
+    '34': 'page down',
+    '35': 'end',
+    '36': 'home',
+    '37': 'left arrow',
+    '38': 'right arrow',
+    '39': 'down arrow',
+    '45': 'insert',
+    '46': 'delete',
     '48': 0,
     '49': 1,
     '50': 2,
@@ -44,11 +62,28 @@ var keyMap = {
     '87': 'w',
     '88': 'x',
     '89': 'y',
-    '90': 'z'
+    '90': 'z',
+    '186': ';',
+    '187': '=',
+    '188': ',',
+    '189': '-',
+    '190': '.',
+    '191': '/',
+    '192': '`',
+    '219': '(',
+    '220': '\\',
+    '221': ')',
+    '222': '\''
 };
+var commandsDiv;
+var lastTimeCreatedCommandsDiv;
 
 document.addEventListener('keydown', function (event) {
     'use strict';
+    if (event.metaKey && event.altKey && event.ctrlKey) {
+        showCommandsDiv();
+    }
+
     var metaKey = navigator.platform.toLowerCase().indexOf('mac') !== -1 ? event.metaKey : event.ctrlKey;
     if (shouldCatchKeyCodes) {
         caughtKeyCodes.push(event.keyCode);
@@ -102,6 +137,11 @@ document.addEventListener('keydown', function (event) {
             key();
         }
     }
+});
+
+document.addEventListener('keyup', function (event) {
+    'use strict';
+    hideCommandsDiv();
 });
 
 function bindKey(keyCode, func) {
@@ -192,9 +232,62 @@ function clickByQuerySelector(querySelector, text) {
     }
 }
 
+function createCommandsDiv() {
+    'use strict';
+    if (lastTimeCreatedCommandsDiv !== undefined && lastTimeCreatedCommandsDiv.getTime() < new Date().getTime() + 1000) {
+        return;
+    }
+    lastTimeCreatedCommandsDiv = new Date();
+    commandsDiv = document.createElement('div');
+
+    commandsDiv.id = 'commands';
+    commandsDiv.style.position = 'absolute';
+    commandsDiv.style.top = '30px';
+    commandsDiv.style.left = '30px';
+    commandsDiv.style.background = 'black';
+    commandsDiv.style.color = 'white';
+    commandsDiv.style.padding = '15px';
+    commandsDiv.style.borderRadius = '15px 15px';
+    commandsDiv.style.border = '2px solid #F5F5F7';
+    commandsDiv.style.opacity = '0.7';
+    commandsDiv.style.display = 'block';
+    commandsDiv.style.visibility = 'visible';
+
+    var commands = '<table>';
+    for (let key in keyBinds) {
+        for (let value of keyBinds[key]) {
+            commands += '<tr><td>' + mapKey(key) + '</td><td style="padding-left: 15px">' + value.name + '</td></tr>';
+        }
+    }
+    commands += '</table>';
+
+    commandsDiv.innerHTML = commands;
+    document.getElementsByTagName('body')[0].appendChild(commandsDiv);
+}
+
+function hideCommandsDiv() {
+    var commandsDivToDelete = document.getElementById('commands');
+    if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
+        createCommandsDiv();
+    } else {
+        commandsDivToDelete.style.display = 'none';
+        commandsDivToDelete.style.visibility = 'hidden';
+    }
+}
+
 function mapKey(key) {
     'use strict';
     return keyMap[key];
+}
+
+function showCommandsDiv() {
+    var commandsDivToDelete = document.getElementById('commands');
+    if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
+        createCommandsDiv();
+    } else {
+        commandsDivToDelete.style.display = 'block';
+        commandsDivToDelete.style.visibility = 'visible';
+    }
 }
 
 function updateSelectById(id, value) {
