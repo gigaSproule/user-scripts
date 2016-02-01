@@ -249,7 +249,7 @@ function createCommandsDiv() {
     commandsDiv.style.padding = '15px';
     commandsDiv.style.borderRadius = '15px 15px';
     commandsDiv.style.border = '2px solid #F5F5F7';
-    commandsDiv.style.opacity = '0.7';
+    commandsDiv.style.zIndex = '99999999';
     commandsDiv.style.display = 'block';
     commandsDiv.style.visibility = 'visible';
 
