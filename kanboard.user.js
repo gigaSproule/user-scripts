@@ -14,6 +14,7 @@
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
 window.onload = function () {
+    'use strict';
     document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
 
     colour();
@@ -55,12 +56,14 @@ window.onload = function () {
 };
 
 function addComment() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(6) > a:nth-child(1)', 'Add a comment');
     }
 }
 
 function addChangeAssigneeClickEvent() {
+    'use strict';
     for (let link of document.querySelectorAll('a[title="Change assignee"]')) {
         if (link !== 0) {
             link.addEventListener('click', changeAssignee);
@@ -69,36 +72,44 @@ function addChangeAssigneeClickEvent() {
 }
 
 function addLink() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(5) > a:nth-child(1)', 'Add a link');
     }
 }
 
 function analysis() {
+    'use strict';
     updateCategory('17');
 }
 
 function backToBoard() {
+    'use strict';
     clickByQuerySelector('#main > div:nth-child(1) > ul:nth-child(1) > li:nth-child(1) > a:nth-child(2)', 'Back to the board');
 }
 
 function blockedBy() {
+    'use strict';
     updateLinkId('3');
 }
 
 function blocks() {
+    'use strict';
     updateLinkId('2');
 }
 
 function bug() {
+    'use strict';
     updateCategory('3');
 }
 
 function cancel() {
+    'use strict';
     clickByQuerySelector('.form-actions > a:nth-child(2)', 'cancel');
 }
 
 function changeAssignee(event) {
+    'use strict';
     var parent = event.link.parentNode;
 
     while (parent.className.indexOf('draggable-item') < 0) {
@@ -110,6 +121,7 @@ function changeAssignee(event) {
     event.link.removeAttribute('href');
     getRequest({
         success: function (response) {
+            'use strict';
             var parser = new DOMParser();
             var html = parser.parseFromString(response.responseText, 'text/html');
             var csrfToken = html.getElementsByName('csrf_token')[0].value;
@@ -127,6 +139,7 @@ function changeAssignee(event) {
             var data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
             postRequest({
                 success: function () {
+                    'use strict';
                     location.reload();
                 },
                 failure: function () {
@@ -137,6 +150,7 @@ function changeAssignee(event) {
             });
         },
         failure: function () {
+            'use strict';
             alert('An error has occured making the request');
         },
         url: 'http://10.92.71.48/kanboard/?controller=board&action=changeAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id
@@ -144,10 +158,12 @@ function changeAssignee(event) {
 }
 
 function childOf() {
+    'use strict';
     updateLinkId('6');
 }
 
 function colour() {
+    'use strict';
     var select = document.getElementById('form-color_id');
     if (select === null) {
         return;
@@ -159,6 +175,7 @@ function colour() {
 }
 
 function setColour(element) {
+    'use strict';
     switch (element.value) {
         case 'yellow':
             element.style.background = '#F5F7C4';
@@ -212,33 +229,40 @@ function setColour(element) {
 }
 
 function correctMarkdownSize() {
+    'use strict';
     for (let markdown of document.querySelectorAll('.markdown')) {
         markdown.style.fontSize = '100%';
     }
 }
 
 function editTask() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(1) > a:nth-child(1)', 'Edit the task');
     }
 }
 
 function editDescription() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(2) > a:nth-child(1)', 'Edit the description');
     }
 }
 
 function estimation() {
+    'use strict';
     updateCategory('23');
 }
 
 function epic() {
+    'use strict';
     updateCategory('1');
 }
 
 function openTask() {
+    'use strict';
     catchKeyCodes(function (keyCodes) {
+        'use strict';
         var taskId = '';
         for (let key of keyCodes) {
             taskId += mapKey(key);
@@ -248,18 +272,22 @@ function openTask() {
 }
 
 function parentOf() {
+    'use strict';
     updateLinkId('7');
 }
 
 function planning() {
+    'use strict';
     updateCategory('22');
 }
 
 function relatedTo() {
+    'use strict';
     updateLinkId('1');
 }
 
 function removeTask() {
+    'use strict';
     if (!textField()) {
         var parameters = getWindowParameters();
         if (parameters.task_id === undefined || parameters.project_id === undefined) {
@@ -268,6 +296,7 @@ function removeTask() {
         getRequest({
             url: 'http://10.92.71.48/kanboard/?controller=task&action=remove&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
             success: function (response) {
+                'use strict';
                 if (confirm('Are you sure you want to delete task ' + parameters.task_id)) {
                     var parser = new DOMParser();
                     var html = parser.parseFromString(response.responseText, 'text/html');
@@ -275,9 +304,11 @@ function removeTask() {
                     getRequest({
                         url: url,
                         success: function () {
+                            'use strict';
                             window.location.href = 'http://10.92.71.48/kanboard/?controller=board&action=show&project_id=1';
                         },
                         failure: function () {
+                            'use strict';
                             alert('Failed to remove task ' + parameters.task_id);
                         }
                     });
@@ -288,33 +319,39 @@ function removeTask() {
 }
 
 function showActivityStream() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(2) > li:nth-child(2) > a:nth-child(1)', 'Activity stream');
     }
 }
 
 function showSummary() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)', 'Summary');
     }
 }
 
 function showTransitions() {
+    'use strict';
     if (!textField()) {
         clickByQuerySelector('.sidebar > ul:nth-child(2) > li:nth-child(3) > a:nth-child(1)', 'Transitions');
     }
 }
 
 function spike() {
+    'use strict';
     updateCategory('4');
 }
 
 function textField() {
+    'use strict';
     var type = document.activeElement.type;
     return type === 'textarea' || type === 'text' || type === 'number' || type === 'select-one';
 }
 
 function toggleColumns() {
+    'use strict';
     for (let column of document.getElementsByClassName('board-task-list board-column-expanded ui-sortable')) {
         console.log(column.style.height);
         if (column.style.height === '100%') {
@@ -326,6 +363,7 @@ function toggleColumns() {
 }
 
 function toggleSideBar() {
+    'use strict';
     var expandedSideBar = document.querySelector('.sidebar-expand');
     if (expandedSideBar === null) {
         return;
@@ -339,18 +377,22 @@ function toggleSideBar() {
 }
 
 function updateLinkId(value) {
+    'use strict';
     updateSelect('form-link_id', value);
     document.getElementById('form-title').focus();
 }
 
 function updateCategory(value) {
+    'use strict';
     updateSelect('form-category_id', value);
 }
 
 function updateSelect(id, value) {
+    'use strict';
     updateSelectById(id, value);
 }
 
 function yes() {
+    'use strict';
     clickByQuerySelector('.btn', 'Yes');
 }
