@@ -240,7 +240,7 @@ function createCommandsDiv() {
     commandsDiv.style.display = 'block';
     commandsDiv.style.visibility = 'visible';
 
-    var commands = '<table style="border: none">';
+    var commands = '<table style="border: none; margin-bottom: 0px">';
 
     commands += getCommands(keyBinds);
     commands += getCommands(altKeyBinds);
