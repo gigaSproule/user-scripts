@@ -219,7 +219,7 @@ function clickByQuerySelector(querySelector, text) {
     }
 }
 
-function createCommandsDiv() {
+function createCommandsDiv(show) {
     'use strict';
     if (lastTimeCreatedCommandsDiv !== undefined && lastTimeCreatedCommandsDiv.getTime() < new Date().getTime() + 1000) {
         return;
@@ -238,8 +238,13 @@ function createCommandsDiv() {
     commandsDiv.style.borderRadius = '15px 15px';
     commandsDiv.style.border = '2px solid #F5F5F7';
     commandsDiv.style.zIndex = '99999999';
-    commandsDiv.style.display = 'block';
-    commandsDiv.style.visibility = 'visible';
+    if (show) {
+        commandsDiv.style.display = 'block';
+        commandsDiv.style.visibility = 'visible';
+    } else {
+        commandsDiv.style.display = 'none';
+        commandsDiv.style.visibility = 'hidden';
+    }
 
     var commands = '<table style="border: none; margin-bottom: 0px">';
 
@@ -274,7 +279,7 @@ function getCommands(keyBinding, specialCharacters) {
 function hideCommandsDiv() {
     var commandsDivToDelete = document.getElementById('commands');
     if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
-        createCommandsDiv();
+        createCommandsDiv(false);
     } else {
         commandsDivToDelete.style.display = 'none';
         commandsDivToDelete.style.visibility = 'hidden';
@@ -289,7 +294,7 @@ function mapKey(key) {
 function showCommandsDiv() {
     var commandsDivToDelete = document.getElementById('commands');
     if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
-        createCommandsDiv();
+        createCommandsDiv(true);
     } else {
         commandsDivToDelete.style.display = 'block';
         commandsDivToDelete.style.visibility = 'visible';
