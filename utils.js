@@ -258,6 +258,10 @@ function createCommandsDiv() {
 }
 
 function getCommands(keyBinding, specialCharacters) {
+    if (specialCharacters === undefined || specialCharacters === null) {
+        specialCharacters = '';
+    }
+
     var commands = '';
     for (let key in keyBinding) {
         for (let value of keyBinding[key]) {

@@ -2,7 +2,7 @@
 // @name        Tumblr
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.9
+// @version     1.0.10
 // @include     http://*.tumblr.com/*
 // @include     https://*.tumblr.com/*
 // @match       http://*.tumblr.com/*
