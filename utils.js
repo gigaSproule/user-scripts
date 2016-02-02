@@ -92,17 +92,17 @@ document.addEventListener('keydown', function (event) {
     }
 
     if (!metaKey && !event.altKey && !event.shiftKey) {
-        executeKeyBinding(keyBinds, event.keyCode);
+        executeKeyBinding(keyBinds, event);
     } else if (!metaKey && event.altKey && !event.shiftKey) {
-        executeKeyBinding(altKeyBinds, event.keyCode);
+        executeKeyBinding(altKeyBinds, event);
     } else if (metaKey && !event.altKey && !event.shiftKey) {
-        executeKeyBinding(metaKeyBinds, event.keyCode);
+        executeKeyBinding(metaKeyBinds, event);
     } else if (!metaKey && !event.altKey && event.shiftKey) {
-        executeKeyBinding(shiftKeyBinds, event.keyCode);
+        executeKeyBinding(shiftKeyBinds, event);
     } else if (metaKey && event.shiftKey && !event.altKey) {
-        executeKeyBinding(shiftMetaKeyBinds, event.keyCode);
+        executeKeyBinding(shiftMetaKeyBinds, event);
     } else if (metaKey && !event.shiftKey && event.altKey) {
-        executeKeyBinding(altMetaKeyBinds, event.keyCode);
+        executeKeyBinding(altMetaKeyBinds, event);
     }
 });
 
@@ -111,12 +111,13 @@ document.addEventListener('keyup', function (event) {
     hideCommandsDiv();
 });
 
-function executeKeyBinding(keyBinding, keyCode) {
+function executeKeyBinding(keyBinding, event) {
     'use strict';
-    if (keyBinding[keyCode] === undefined) {
+    if (keyBinding[event.keyCode] === undefined) {
         return;
     }
-    for (let key of keyBinding[keyCode]) {
+    for (let key of keyBinding[event.keyCode]) {
+        event.preventDefault();
         key.func();
     }
 }
@@ -246,7 +247,7 @@ function createCommandsDiv(show) {
         commandsDiv.style.visibility = 'hidden';
     }
 
-    var commands = '<table style="border: none; margin-bottom: 0px">';
+    var commands = '<table style="border: none; margin-bottom: 0">';
 
     var metaKey = isMac ? 'cmd' : 'ctrl';
     commands += getCommands(keyBinds);
