@@ -263,6 +263,7 @@ function createCommandsDiv(show) {
 }
 
 function getCommands(keyBinding, specialCharacters) {
+    'use strict';
     if (specialCharacters === undefined || specialCharacters === null) {
         specialCharacters = '';
     }
@@ -277,6 +278,7 @@ function getCommands(keyBinding, specialCharacters) {
 }
 
 function hideCommandsDiv() {
+    'use strict';
     var commandsDivToDelete = document.getElementById('commands');
     if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
         createCommandsDiv(false);
@@ -292,6 +294,7 @@ function mapKey(key) {
 }
 
 function showCommandsDiv() {
+    'use strict';
     var commandsDivToDelete = document.getElementById('commands');
     if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
         createCommandsDiv(true);
