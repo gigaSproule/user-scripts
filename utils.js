@@ -92,17 +92,17 @@ document.addEventListener('keydown', function (event) {
     }
 
     if (!metaKey && !event.altKey && !event.shiftKey) {
-        executeKeyBinding(keyBinds, event);
+        executeKeyBinding(keyBinds, event, inputFieldActive() ? false : true);
     } else if (!metaKey && event.altKey && !event.shiftKey) {
-        executeKeyBinding(altKeyBinds, event);
-    } else if (metaKey && !event.altKey && !event.shiftKey) {
-        executeKeyBinding(metaKeyBinds, event);
+        executeKeyBinding(altKeyBinds, event, inputFieldActive() ? false : true);
     } else if (!metaKey && !event.altKey && event.shiftKey) {
-        executeKeyBinding(shiftKeyBinds, event);
+        executeKeyBinding(shiftKeyBinds, event, inputFieldActive() ? false : true);
+    } else if (metaKey && !event.altKey && !event.shiftKey) {
+        executeKeyBinding(metaKeyBinds, event, true);
     } else if (metaKey && event.shiftKey && !event.altKey) {
-        executeKeyBinding(shiftMetaKeyBinds, event);
+        executeKeyBinding(shiftMetaKeyBinds, event, true);
     } else if (metaKey && !event.shiftKey && event.altKey) {
-        executeKeyBinding(altMetaKeyBinds, event);
+        executeKeyBinding(altMetaKeyBinds, event, true);
     }
 });
 
@@ -111,13 +111,15 @@ document.addEventListener('keyup', function (event) {
     hideCommandsDiv();
 });
 
-function executeKeyBinding(keyBinding, event) {
+function executeKeyBinding(keyBinding, event, preventDefault) {
     'use strict';
     if (keyBinding[event.keyCode] === undefined) {
         return;
     }
     for (let key of keyBinding[event.keyCode]) {
-        event.preventDefault();
+        if (preventDefault) {
+            event.preventDefault();
+        }
         key.func();
     }
 }
@@ -307,6 +309,12 @@ function showCommandsDiv() {
         commandsDivToDelete.style.display = 'block';
         commandsDivToDelete.style.visibility = 'visible';
     }
+}
+
+function inputFieldActive() {
+    'use strict';
+    var type = document.activeElement.type;
+    return type === 'textarea' || type === 'text' || type === 'number' || type === 'select-one';
 }
 
 function updateSelectById(id, value) {

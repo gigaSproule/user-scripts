@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.27
+// @version     1.0.28
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -59,7 +59,7 @@ window.onload = function () {
 
 function addComment() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(6) > a:nth-child(1)', 'Add a comment');
     }
 }
@@ -75,7 +75,7 @@ function addChangeAssigneeClickEvent() {
 
 function addLink() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(5) > a:nth-child(1)', 'Add a link');
     }
 }
@@ -237,14 +237,14 @@ function correctMarkdownSize() {
 
 function editTask() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(1) > a:nth-child(1)', 'Edit the task');
     }
 }
 
 function editDescription() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(4) > li:nth-child(2) > a:nth-child(1)', 'Edit the description');
     }
 }
@@ -287,7 +287,7 @@ function relatedTo() {
 
 function removeTask() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         var parameters = getWindowParameters();
         if (parameters.task_id === undefined || parameters.project_id === undefined) {
             return;
@@ -316,21 +316,21 @@ function removeTask() {
 
 function showActivityStream() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(2) > li:nth-child(2) > a:nth-child(1)', 'Activity stream');
     }
 }
 
 function showSummary() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)', 'Summary');
     }
 }
 
 function showTransitions() {
     'use strict';
-    if (!textField()) {
+    if (!inputFieldActive()) {
         clickByQuerySelector('.sidebar > ul:nth-child(2) > li:nth-child(3) > a:nth-child(1)', 'Transitions');
     }
 }
@@ -338,12 +338,6 @@ function showTransitions() {
 function spike() {
     'use strict';
     updateCategory('4');
-}
-
-function textField() {
-    'use strict';
-    var type = document.activeElement.type;
-    return type === 'textarea' || type === 'text' || type === 'number' || type === 'select-one';
 }
 
 function toggleColumns() {
