@@ -13,6 +13,8 @@
 // @run-at      document-end
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
+/* jshint esversion:6 */
+/* jshint strict:true */
 window.onload = function () {
     'use strict';
     document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
@@ -121,7 +123,6 @@ function changeAssignee(event) {
     event.link.removeAttribute('href');
     getRequest({
         success: function (response) {
-            'use strict';
             var parser = new DOMParser();
             var html = parser.parseFromString(response.responseText, 'text/html');
             var csrfToken = html.getElementsByName('csrf_token')[0].value;
@@ -139,7 +140,6 @@ function changeAssignee(event) {
             var data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
             postRequest({
                 success: function () {
-                    'use strict';
                     location.reload();
                 },
                 failure: function () {
@@ -150,7 +150,6 @@ function changeAssignee(event) {
             });
         },
         failure: function () {
-            'use strict';
             alert('An error has occured making the request');
         },
         url: 'http://10.92.71.48/kanboard/?controller=board&action=changeAssignee&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id
@@ -262,7 +261,6 @@ function epic() {
 function openTask() {
     'use strict';
     catchKeyCodes(function (keyCodes) {
-        'use strict';
         var taskId = '';
         for (let key of keyCodes) {
             taskId += mapKey(key);
@@ -296,7 +294,6 @@ function removeTask() {
         getRequest({
             url: 'http://10.92.71.48/kanboard/?controller=task&action=remove&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
             success: function (response) {
-                'use strict';
                 if (confirm('Are you sure you want to delete task ' + parameters.task_id)) {
                     var parser = new DOMParser();
                     var html = parser.parseFromString(response.responseText, 'text/html');
@@ -304,11 +301,9 @@ function removeTask() {
                     getRequest({
                         url: url,
                         success: function () {
-                            'use strict';
                             window.location.href = 'http://10.92.71.48/kanboard/?controller=board&action=show&project_id=1';
                         },
                         failure: function () {
-                            'use strict';
                             alert('Failed to remove task ' + parameters.task_id);
                         }
                     });

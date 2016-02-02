@@ -13,15 +13,20 @@
 // @run-at      document-end
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
+/* jshint esversion:6 */
+/* jshint strict:true */
 window.onload = function () {
+    'use strict';
     bindKey('37', 'Newer posts', left);
     bindKey('39', 'Older posts', right);
 };
 
 function left() {
+    'use strict';
     clickById('Blog1_blog-pager-newer-link');
 }
 
 function right() {
+    'use strict';
     clickById('Blog1_blog-pager-older-link');
 }

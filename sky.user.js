@@ -13,15 +13,20 @@
 // @run-at      document-end
 // @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
+/* jshint esversion:6 */
+/* jshint strict:true */
 window.onload = function () {
+    'use strict';
     bindKey('37', 'Previous', left);
     bindKey('39', 'Next', right);
 };
 
 function left() {
+    'use strict';
     clickByClassName('navigation-control left');
 }
 
 function right() {
+    'use strict';
     clickByClassName('navigation-control right');
 }
