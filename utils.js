@@ -77,6 +77,7 @@ var keyMap = {
 };
 var commandsDiv;
 var lastTimeCreatedCommandsDiv;
+var isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
 
 document.addEventListener('keydown', function (event) {
     'use strict';
@@ -84,7 +85,7 @@ document.addEventListener('keydown', function (event) {
         showCommandsDiv();
     }
 
-    var metaKey = navigator.platform.toLowerCase().indexOf('mac') !== -1 ? event.metaKey : event.ctrlKey;
+    var metaKey = isMac ? event.metaKey : event.ctrlKey;
     if (shouldCatchKeyCodes) {
         caughtKeyCodes.push(event.keyCode);
         return;
@@ -242,12 +243,13 @@ function createCommandsDiv() {
 
     var commands = '<table style="border: none; margin-bottom: 0px">';
 
+    var metaKey = isMac ? 'cmd' : 'ctrl';
     commands += getCommands(keyBinds);
-    commands += getCommands(altKeyBinds);
-    commands += getCommands(metaKeyBinds);
-    commands += getCommands(shiftKeyBinds);
-    commands += getCommands(altMetaKeyBinds);
-    commands += getCommands(shiftMetaKeyBinds);
+    commands += getCommands(altKeyBinds, 'alt');
+    commands += getCommands(metaKeyBinds, metaKey);
+    commands += getCommands(shiftKeyBinds, 'shift');
+    commands += getCommands(altMetaKeyBinds, 'alt + ' + metaKey);
+    commands += getCommands(shiftMetaKeyBinds, 'shift + ' + metaKey);
 
     commands += '</table>';
     commandsDiv.innerHTML = commands;
@@ -255,11 +257,11 @@ function createCommandsDiv() {
     document.getElementsByTagName('body')[0].appendChild(commandsDiv);
 }
 
-function getCommands(keyBinding) {
+function getCommands(keyBinding, specialCharacters) {
     var commands = '';
     for (let key in keyBinding) {
         for (let value of keyBinding[key]) {
-            commands += '<tr style="border: none"><td style="border: none">' + mapKey(key) + '</td><td style="padding-left: 15px; border: none">' + value.description + '</td></tr>';
+            commands += '<tr style="border: none"><td style="border: none">' + specialCharacters + ' + ' + mapKey(key) + '</td><td style="padding-left: 15px; border: none">' + value.description + '</td></tr>';
         }
     }
     return commands;

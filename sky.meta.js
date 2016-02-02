@@ -2,7 +2,7 @@
 // @name        Sky
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.8
+// @version     1.0.9
 // @include     http://*.sky.com/*
 // @include     https://*.sky.com/*
 // @match       http://*.sky.com/*
