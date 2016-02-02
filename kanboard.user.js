@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.26
+// @version     1.0.27
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -112,7 +112,8 @@ function cancel() {
 
 function changeAssignee(event) {
     'use strict';
-    var parent = event.link.parentNode;
+    var link = event.target;
+    var parent = link.parentNode;
 
     while (parent.className.indexOf('draggable-item') < 0) {
         parent = parent.parentNode;
@@ -120,7 +121,7 @@ function changeAssignee(event) {
 
     var parameters = getParameters(parent.getAttribute('data-task-url'));
 
-    event.link.removeAttribute('href');
+    link.removeAttribute('href');
     getRequest({
         success: function (response) {
             var parser = new DOMParser();
@@ -129,7 +130,7 @@ function changeAssignee(event) {
             var username = document.querySelector('.username > a:nth-child(1)').text;
 
             var ownerId = '0';
-            if (event.link.text !== username) {
+            if (link.text !== username) {
                 for (let option of html.getElementById('form-owner_id').options) {
                     if (option.text === username) {
                         ownerId = option.value;
