@@ -314,7 +314,7 @@ function showCommandsDiv() {
 function inputFieldActive() {
     'use strict';
     var type = document.activeElement.type;
-    return type === 'textarea' || type === 'text' || type === 'number' || type === 'select-one';
+    return type === 'number' || type === 'password' || type === 'select-one' || type === 'textarea' || type === 'text';
 }
 
 function updateSelectById(id, value) {
