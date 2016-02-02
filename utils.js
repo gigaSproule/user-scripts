@@ -266,12 +266,14 @@ function getCommands(keyBinding, specialCharacters) {
     'use strict';
     if (specialCharacters === undefined || specialCharacters === null) {
         specialCharacters = '';
+    } else {
+        specialCharacters = ' + ';
     }
 
     var commands = '';
     for (let key in keyBinding) {
         for (let value of keyBinding[key]) {
-            commands += '<tr style="border: none"><td style="border: none">' + specialCharacters + ' + ' + mapKey(key) + '</td><td style="padding-left: 15px; border: none">' + value.description + '</td></tr>';
+            commands += '<tr style="border: none"><td style="border: none">' + specialCharacters + mapKey(key) + '</td><td style="padding-left: 15px; border: none">' + value.description + '</td></tr>';
         }
     }
     return commands;
