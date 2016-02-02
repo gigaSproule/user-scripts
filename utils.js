@@ -259,7 +259,7 @@ function getCommands(keyBinding) {
     var commands = '';
     for (let key in keyBinding) {
         for (let value of keyBinding[key]) {
-            commands += '<tr style="border: none"><td>' + mapKey(key) + '</td><td style="padding-left: 15px">' + value.description + '</td></tr>';
+            commands += '<tr style="border: none"><td style="border: none">' + mapKey(key) + '</td><td style="padding-left: 15px; border: none">' + value.description + '</td></tr>';
         }
     }
     return commands;
