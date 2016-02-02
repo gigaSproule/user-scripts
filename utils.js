@@ -267,7 +267,7 @@ function getCommands(keyBinding, specialCharacters) {
     if (specialCharacters === undefined || specialCharacters === null) {
         specialCharacters = '';
     } else {
-        specialCharacters = ' + ';
+        specialCharacters += ' + ';
     }
 
     var commands = '';
