@@ -251,13 +251,15 @@ function createCommandsDiv(show) {
 
     var commands = '<table style="border: none; margin-bottom: 0">';
 
-    var metaKey = isMac ? 'cmd' : 'ctrl';
+    var metaKey = isMac ? '⌘' : 'ctrl';
+    var altKey = isMac ? '⌥' : 'ctrl';
+    var shiftKey = '⇧';
     commands += getCommands(keyBinds);
-    commands += getCommands(altKeyBinds, 'alt');
+    commands += getCommands(altKeyBinds, altKey);
     commands += getCommands(metaKeyBinds, metaKey);
-    commands += getCommands(shiftKeyBinds, 'shift');
-    commands += getCommands(altMetaKeyBinds, 'alt + ' + metaKey);
-    commands += getCommands(shiftMetaKeyBinds, 'shift + ' + metaKey);
+    commands += getCommands(shiftKeyBinds, shiftKey);
+    commands += getCommands(altMetaKeyBinds, altKey + ' + ' + metaKey);
+    commands += getCommands(shiftMetaKeyBinds, shiftKey + ' + ' + metaKey);
 
     commands += '</table>';
     commandsDiv.innerHTML = commands;
