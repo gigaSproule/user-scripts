@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.29
+// @version     1.0.30
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -48,12 +48,12 @@ window.onload = function () {
         bindShiftMetaKey('66', 'Set link to blocks', blocks);
     }
     if (getWindowParameters().controller === 'taskmodification' || getWindowParameters().controller === 'taskcreation') {
-        bindMetaKey('65', 'Set type to analysis', analysis);
-        bindMetaKey('66', 'Set type to bug', bug);
-        bindMetaKey('69', 'Set type to epic', epic);
-        bindShiftMetaKey('69', 'Set type to estimation', estimation);
-        bindMetaKey('80', 'Set type to planning', planning);
-        bindMetaKey('83', 'Set type to spike', spike);
+        bindShiftMetaKey('65', 'Set type to analysis', analysis);
+        bindShiftMetaKey('66', 'Set type to bug', bug);
+        bindAltMetaKey('69', 'Set type to estimation', estimation);
+        bindShiftMetaKey('69', 'Set type to epic', epic);
+        bindShiftMetaKey('80', 'Set type to planning', planning);
+        bindShiftMetaKey('83', 'Set type to spike', spike);
     }
 };
 
