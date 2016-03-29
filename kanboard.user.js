@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.30
+// @version     1.0.31
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -18,6 +18,7 @@
 window.onload = function () {
     'use strict';
     document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
+    document.getElementById('form-color_id').addEventListener('change', colour);
 
     colour();
     addChangeAssigneeClickEvent();
@@ -66,7 +67,7 @@ function addComment() {
 
 function addChangeAssigneeClickEvent() {
     'use strict';
-    for (let link of document.querySelectorAll('a[title="Change assignee"]')) {
+    for (let link of Array.from(document.querySelectorAll('a[title="Change assignee"]'))) {
         if (link !== 0) {
             link.addEventListener('click', changeAssignee);
         }
@@ -169,7 +170,7 @@ function colour() {
         return;
     }
     setColour(select);
-    for (let option of select.options) {
+    for (let option of Array.from(select.options)) {
         setColour(option);
     }
 }
@@ -230,7 +231,7 @@ function setColour(element) {
 
 function correctMarkdownSize() {
     'use strict';
-    for (let markdown of document.querySelectorAll('.markdown')) {
+    for (let markdown of Array.from(document.querySelectorAll('.markdown'))) {
         markdown.style.fontSize = '100%';
     }
 }
@@ -342,7 +343,7 @@ function spike() {
 
 function toggleColumns() {
     'use strict';
-    for (let column of document.getElementsByClassName('board-task-list board-column-expanded ui-sortable')) {
+    for (let column of Array.from(document.getElementsByClassName('board-task-list board-column-expanded ui-sortable'))) {
         console.log(column.style.height);
         if (column.style.height === '100%') {
             column.style.height = '500px';
