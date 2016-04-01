@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.32
+// @version     1.0.33
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -135,7 +135,7 @@ function changeAssignee(event) {
 
             var ownerId = '0';
             if (link.text !== username) {
-                for (let option of html.getElementById('form-owner_id').options) {
+                for (let option of Array.from(html.getElementById('form-owner_id').options)) {
                     if (option.text === username) {
                         ownerId = option.value;
                     }
