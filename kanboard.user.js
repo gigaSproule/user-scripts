@@ -2,7 +2,7 @@
 // @name        Kanboard
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
-// @version     1.0.31
+// @version     1.0.32
 // @include     http://*/kanboard*
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
@@ -18,7 +18,10 @@
 window.onload = function () {
     'use strict';
     document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
-    document.getElementById('form-color_id').addEventListener('change', colour);
+    var colourSelect = document.getElementById('form-color_id');
+    if (colourSelect !== null) {
+        colourSelect.addEventListener('change', colour);
+    }
 
     colour();
     addChangeAssigneeClickEvent();
