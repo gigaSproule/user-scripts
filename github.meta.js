@@ -5,7 +5,6 @@
 // ==UserScript==
 // @name        GitHub
 // @namespace   http://www.benjaminsproule.com
-// @description Full width PR for GitHub
 // @author      Benjamin Sproule
 // @version     1.0.0
 // @include     https://github.com/*
