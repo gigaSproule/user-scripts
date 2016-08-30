@@ -7,9 +7,9 @@
 // @namespace   http://www.benjaminsproule.com
 // @description Full width PR for GitHub
 // @author      Benjamin Sproule
-// @version     1.0.13
-// @include     https://github.com/*/pull/*
-// @match     https://github.com/*/pull/*
+// @version     1.0.0
+// @include     https://github.com
+// @match       https://github.com
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/github.user.js
 // @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/github.meta.js
 // @grant       none
