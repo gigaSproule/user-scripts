@@ -3,7 +3,7 @@
 // @grant       none
 // ==/UserScript==
 // ==UserScript==
-// @name        Full width PR for GitHub
+// @name        GitHub
 // @namespace   http://www.benjaminsproule.com
 // @description Full width PR for GitHub
 // @author      Benjamin Sproule
