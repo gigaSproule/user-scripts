@@ -17,4 +17,6 @@
 // ==/UserScript==
 /* jshint esversion:6 */
 /* jshint strict:true */
-document.getElementsByClassName('new-discussion-timeline')[0].style.width='100%'
+if (window.location.href.match('.*/pull/.*').length == 1) {
+    document.getElementsByClassName('new-discussion-timeline')[0].style.width='100%'
+}
