@@ -17,5 +17,5 @@
 /* jshint esversion:6 */
 /* jshint strict:true */
 if (window.location.href.match('.*/pull/.*').length == 1) {
-    document.getElementsByClassName('new-discussion-timeline')[0].style.width='100%'
+    document.getElementsByClassName('new-discussion-timeline')[0].style.width='95%'
 }
