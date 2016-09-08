@@ -1,8 +1,4 @@
 // ==UserScript==
-// @version     1
-// @grant       none
-// ==/UserScript==
-// ==UserScript==
 // @name        GitHub
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
