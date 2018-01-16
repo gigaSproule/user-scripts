@@ -82,7 +82,7 @@ var isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
 
 document.addEventListener('keydown', function (event) {
     'use strict';
-    if (event.metaKey && event.altKey && event.ctrlKey) {
+    if (event.shiftKey && event.altKey && event.ctrlKey) {
         showCommandsDiv();
     }
 
@@ -253,7 +253,7 @@ function createCommandsDiv(show) {
     var commands = '<table style="border: none; margin-bottom: 0">';
 
     var metaKey = isMac ? '⌘' : 'ctrl';
-    var altKey = isMac ? '⌥' : 'ctrl';
+    var altKey = isMac ? '⌥' : 'alt';
     var shiftKey = '⇧';
     commands += getCommands(keyBinds);
     commands += getCommands(altKeyBinds, altKey);
