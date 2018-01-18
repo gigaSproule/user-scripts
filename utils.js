@@ -76,9 +76,9 @@ var keyMap = {
     '221': ')',
     '222': '\''
 };
-var commandsDiv;
-var lastTimeCreatedCommandsDiv;
-var isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
+let commandsDiv;
+let lastTimeCreatedCommandsDiv;
+const isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
 
 document.addEventListener('keydown', function (event) {
     'use strict';
@@ -86,18 +86,18 @@ document.addEventListener('keydown', function (event) {
         showCommandsDiv();
     }
 
-    var metaKey = isMac ? event.metaKey : event.ctrlKey;
+    const metaKey = isMac ? event.metaKey : event.ctrlKey;
     if (shouldCatchKeyCodes) {
         caughtKeyCodes.push(event.keyCode);
         return;
     }
 
     if (!metaKey && !event.altKey && !event.shiftKey) {
-        executeKeyBinding(keyBinds, event, inputFieldActive() ? false : true);
+        executeKeyBinding(keyBinds, event, !inputFieldActive());
     } else if (!metaKey && event.altKey && !event.shiftKey) {
-        executeKeyBinding(altKeyBinds, event, inputFieldActive() ? false : true);
+        executeKeyBinding(altKeyBinds, event, !inputFieldActive());
     } else if (!metaKey && !event.altKey && event.shiftKey) {
-        executeKeyBinding(shiftKeyBinds, event, inputFieldActive() ? false : true);
+        executeKeyBinding(shiftKeyBinds, event, !inputFieldActive());
     } else if (metaKey && !event.altKey && !event.shiftKey) {
         executeKeyBinding(metaKeyBinds, event, true);
     } else if (metaKey && event.shiftKey && !event.altKey) {
@@ -217,7 +217,7 @@ function clickByQuerySelector(querySelector, text) {
         return;
     }
 
-    var link = document.querySelector(querySelector);
+    const link = document.querySelector(querySelector);
     if (text === undefined || link.text === text) {
         link.click();
     }
@@ -250,11 +250,11 @@ function createCommandsDiv(show) {
         commandsDiv.style.visibility = 'hidden';
     }
 
-    var commands = '<table style="border: none; margin-bottom: 0">';
+    let commands = '<table style="border: none; margin-bottom: 0">';
 
-    var metaKey = isMac ? '⌘' : 'ctrl';
-    var altKey = isMac ? '⌥' : 'alt';
-    var shiftKey = '⇧';
+    const metaKey = isMac ? '⌘' : 'ctrl';
+    const altKey = isMac ? '⌥' : 'alt';
+    const shiftKey = '⇧';
     commands += getCommands(keyBinds);
     commands += getCommands(altKeyBinds, altKey);
     commands += getCommands(metaKeyBinds, metaKey);
@@ -276,7 +276,7 @@ function getCommands(keyBinding, specialCharacters) {
         specialCharacters += ' + ';
     }
 
-    var commands = '';
+    let commands = '';
     for (let key in keyBinding) {
         if (keyBinding.hasOwnProperty(key)) {
             for (let value of keyBinding[key]) {
@@ -289,7 +289,7 @@ function getCommands(keyBinding, specialCharacters) {
 
 function hideCommandsDiv() {
     'use strict';
-    var commandsDivToDelete = document.getElementById('commands');
+    const commandsDivToDelete = document.getElementById('commands');
     if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
         createCommandsDiv(false);
     } else {
@@ -305,7 +305,7 @@ function mapKey(key) {
 
 function showCommandsDiv() {
     'use strict';
-    var commandsDivToDelete = document.getElementById('commands');
+    const commandsDivToDelete = document.getElementById('commands');
     if (commandsDivToDelete === null || commandsDivToDelete === undefined) {
         createCommandsDiv(true);
     } else {
@@ -316,7 +316,7 @@ function showCommandsDiv() {
 
 function inputFieldActive() {
     'use strict';
-    var type = document.activeElement.type;
+    const type = document.activeElement.type;
     return type === 'number' || type === 'password' || type === 'select-one' || type === 'textarea' || type === 'text';
 }
 
@@ -355,7 +355,7 @@ function httpRequest(details) {
         return;
     }
 
-    var request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
@@ -381,10 +381,10 @@ function getWindowParameters() {
 
 function getParameters(url) {
     'use strict';
-    var parameters = {};
-    var urlParameters = url.split('?')[1].split('&');
+    const parameters = {};
+    const urlParameters = url.split('?')[1].split('&');
     for (let param of urlParameters) {
-        var splitParam = param.split('=');
+        const splitParam = param.split('=');
         parameters[splitParam[0]] = splitParam[1];
     }
     return parameters;

@@ -18,7 +18,7 @@
 window.onload = function () {
     'use strict';
     document.addEventListener('click', colour); // Required due to AJAX calls to inner forms
-    var colourSelect = document.getElementById('form-color_id');
+    const colourSelect = document.getElementById('form-color_id');
     if (colourSelect !== null) {
         colourSelect.addEventListener('change', colour);
     }
@@ -116,24 +116,24 @@ function cancel() {
 
 function changeAssignee(event) {
     'use strict';
-    var link = event.target;
-    var parent = link.parentNode;
+    const link = event.target;
+    let parent = link.parentNode;
 
     while (parent.className.indexOf('draggable-item') < 0) {
         parent = parent.parentNode;
     }
 
-    var parameters = getParameters(parent.getAttribute('data-task-url'));
+    const parameters = getParameters(parent.getAttribute('data-task-url'));
 
     link.removeAttribute('href');
     getRequest({
         success: function (response) {
-            var parser = new DOMParser();
-            var html = parser.parseFromString(response.responseText, 'text/html');
-            var csrfToken = html.getElementsByName('csrf_token')[0].value;
-            var username = document.querySelector('.username > a:nth-child(1)').text;
+            const parser = new DOMParser();
+            const html = parser.parseFromString(response.responseText, 'text/html');
+            const csrfToken = html.getElementsByName('csrf_token')[0].value;
+            const username = document.querySelector('.username > a:nth-child(1)').text;
 
-            var ownerId = '0';
+            let ownerId = '0';
             if (link.text !== username) {
                 for (let option of Array.from(html.getElementById('form-owner_id').options)) {
                     if (option.text === username) {
@@ -142,7 +142,7 @@ function changeAssignee(event) {
                 }
             }
 
-            var data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
+            const data = 'csrf_token=' + csrfToken + '&id=' + parameters.task_id + '&project_id=' + parameters.project_id + '&owner_id=' + ownerId;
             postRequest({
                 success: function () {
                     location.reload();
@@ -168,7 +168,7 @@ function childOf() {
 
 function colour() {
     'use strict';
-    var select = document.getElementById('form-color_id');
+    const select = document.getElementById('form-color_id');
     if (select === null) {
         return;
     }
@@ -266,7 +266,7 @@ function epic() {
 function openTask() {
     'use strict';
     catchKeyCodes(function (keyCodes) {
-        var taskId = '';
+        let taskId = '';
         for (let key of keyCodes) {
             taskId += mapKey(key);
         }
@@ -292,7 +292,7 @@ function relatedTo() {
 function removeTask() {
     'use strict';
     if (!inputFieldActive()) {
-        var parameters = getWindowParameters();
+        const parameters = getWindowParameters();
         if (parameters.task_id === undefined || parameters.project_id === undefined) {
             return;
         }
@@ -300,9 +300,9 @@ function removeTask() {
             url: 'http://10.92.71.48/kanboard/?controller=task&action=remove&task_id=' + parameters.task_id + '&project_id=' + parameters.project_id,
             success: function (response) {
                 if (confirm('Are you sure you want to delete task ' + parameters.task_id)) {
-                    var parser = new DOMParser();
-                    var html = parser.parseFromString(response.responseText, 'text/html');
-                    var url = html.querySelector('.btn').href;
+                    const parser = new DOMParser();
+                    const html = parser.parseFromString(response.responseText, 'text/html');
+                    const url = html.querySelector('.btn').href;
                     getRequest({
                         url: url,
                         success: function () {
@@ -358,7 +358,7 @@ function toggleColumns() {
 
 function toggleSideBar() {
     'use strict';
-    var expandedSideBar = document.querySelector('.sidebar-expand');
+    const expandedSideBar = document.querySelector('.sidebar-expand');
     if (expandedSideBar === null) {
         return;
     }

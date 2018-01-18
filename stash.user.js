@@ -3,7 +3,7 @@
 // @namespace   http://www.benjaminsproule.com
 // @author      Benjamin Sproule
 // @version     1.0.0
-// @include     /^https?://stash.*/pull-requests/.*/
+// @include     /^https?://stash.*/
 // @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/stash.user.js
 // @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/stash.meta.js
 // @grant       none
@@ -12,25 +12,41 @@
 // ==/UserScript==
 /* jshint esversion:6 */
 /* jshint strict:true */
-window.onload = function () {
+let getCopyCheckoutCommand = false;
+let getCopyCloneCommand = false;
+
+const PULL_REQUEST = 'pull-request';
+const BROWSE = 'browse';
+const OTHER = 'other';
+
+function getPage() {
     'use strict';
+    if (window.location.href.match('.*/pull-requests/.*')) {
+        return PULL_REQUEST;
+    } else if (window.location.href.match('.*/browse.*')) {
+        return BROWSE;
+    } else {
+        return OTHER;
+    }
+}
 
-    var copyCheckoutCommand = false;
-    var copyCloneCommand = false;
+function copyCloneCommand(event) {
+    'use strict';
+    event.clipboardData.setData('text/plain', 'git clone ' + document.querySelector('.quick-copy-text').value);
+    event.preventDefault();
+    getCopyCloneCommand = false;
+}
 
-    document.addEventListener('copy', function (e) {
-        if (copyCheckoutCommand) {
-            e.clipboardData.setData('text/plain', 'git checkout ' + document.querySelector('div.ref-name:nth-child(1) > span:nth-child(1)').innerHTML);
-            e.preventDefault();
-            copyCheckoutCommand = false;
-        } else if (copyCloneCommand) {
-            e.clipboardData.setData('text/plain', 'git clone ' + document.querySelector('.quick-copy-text').value);
-            e.preventDefault();
-            copyCloneCommand = false;
-        }
-    });
+function copyCheckoutCommand(event, branch) {
+    'use strict';
+    event.clipboardData.setData('text/plain', 'git checkout ' + branch);
+    event.preventDefault();
+    getCopyCheckoutCommand = false;
+}
 
-    var checkoutCommandButton = document.createElement('button');
+function appendCheckoutCommandButton(parentElement) {
+    'use strict';
+    const checkoutCommandButton = document.createElement('button');
     checkoutCommandButton.className = 'aui-button aui-button-link';
     checkoutCommandButton.setAttribute('role', 'menuitem');
     checkoutCommandButton.setAttribute('data-action', 'copy-checkout-command');
@@ -40,11 +56,14 @@ window.onload = function () {
         document.execCommand('copy');
     });
 
-    var checkoutCommandItem = document.createElement('li');
+    const checkoutCommandItem = document.createElement('li');
     checkoutCommandItem.appendChild(checkoutCommandButton);
-    document.querySelector('#pull-request-header-more > div:nth-child(1) > ul:nth-child(1)').appendChild(checkoutCommandButton);
+    parentElement.appendChild(checkoutCommandButton);
+}
 
-    var cloneCommandButton = document.createElement('button');
+function appendCloneCommandButton(parentElement) {
+    'use strict';
+    const cloneCommandButton = document.createElement('button');
     cloneCommandButton.className = 'aui-button aui-button-link';
     cloneCommandButton.setAttribute('role', 'menuitem');
     cloneCommandButton.setAttribute('data-action', 'copy-clone-command');
@@ -54,17 +73,46 @@ window.onload = function () {
         document.execCommand('copy');
     });
 
-    var cloneCommandItem = document.createElement('li');
+    const cloneCommandItem = document.createElement('li');
     cloneCommandItem.appendChild(cloneCommandButton);
-    document.querySelector('#pull-request-header-more > div:nth-child(1) > ul:nth-child(1)').appendChild(cloneCommandItem);
+    parentElement.appendChild(cloneCommandItem);
+}
+
+window.onload = function () {
+    'use strict';
+
+    const page = getPage();
+    document.addEventListener('copy', function (event) {
+            if (getCopyCheckoutCommand) {
+                let branch;
+                if (page === PULL_REQUEST) {
+                    branch = document.querySelector('div.ref-name:nth-child(1) > span:nth-child(1)').innerHTML;
+                    copyCheckoutCommand(event, branch);
+                } else if (page === BROWSE) {
+                    branch = document.querySelector('#repository-layout-revision-selector > span:nth-child(2)').innerHTML;
+                } else {
+                    return;
+                }
+                copyCheckoutCommand(event, branch);
+            } else if (getCopyCloneCommand) {
+                copyCloneCommand(event)
+            }
+        }
+    );
+
+    if (page === PULL_REQUEST) {
+        const parent = document.querySelector('#pull-request-header-more > div:nth-child(1) > ul:nth-child(1)');
+        appendCheckoutCommandButton(parent);
+        appendCloneCommandButton(parent);
+    }
 
     bindAltKey('67', 'Copy checkout command', function () {
-        copyCheckoutCommand = true;
+        getCopyCheckoutCommand = true;
         document.execCommand('copy');
     });
 
     bindAltKey('78', 'Copy clone command', function () {
-        copyCloneCommand = true;
+        getCopyCloneCommand = true;
         document.execCommand('copy');
     });
 };
