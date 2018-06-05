@@ -7,9 +7,9 @@
 // @include     https://*/kanboard*
 // @match       http://*/kanboard*
 // @match       https://*/kanboard*
-// @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/kanboard.user.js
-// @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/kanboard.meta.js
+// @downloadURL https://gitlab.com/gigaSproule/user-scripts/raw/master/kanboard.user.js
+// @updateURL   https://gitlab.com/gigaSproule/user-scripts/raw/master/kanboard.meta.js
 // @grant       none
 // @run-at      document-end
-// @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
+// @require     https://gitlab.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==

@@ -7,11 +7,11 @@
 // @include     https://*.reddit.com/*
 // @match       http://*.reddit.com/*
 // @match       https://*.reddit.com/*
-// @downloadURL https://github.com/gigaSproule/user-scripts/raw/master/reddit.user.js
-// @updateURL   https://github.com/gigaSproule/user-scripts/raw/master/reddit.meta.js
+// @downloadURL https://gitlab.com/gigaSproule/user-scripts/raw/master/reddit.user.js
+// @updateURL   https://gitlab.com/gigaSproule/user-scripts/raw/master/reddit.meta.js
 // @grant       none
 // @run-at      document-end
-// @require     https://github.com/gigaSproule/user-scripts/raw/master/utils.js
+// @require     https://gitlab.com/gigaSproule/user-scripts/raw/master/utils.js
 // ==/UserScript==
 /* jshint esversion:6 */
 /* jshint strict:true */
