@@ -389,3 +389,15 @@ function getParameters(url) {
     }
     return parameters;
 }
+
+function populateCheckboxField(id, select) {
+    document.getElementById(id).checked = select
+}
+
+function populateSelectField(id, value) {
+    document.getElementById(id).value = value;
+}
+
+function populateTextField(id, value) {
+    document.getElementById(id).value = value;
+}
